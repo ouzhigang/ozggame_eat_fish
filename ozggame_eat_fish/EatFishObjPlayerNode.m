@@ -9,6 +9,10 @@
 #import "EatFishObjPlayerNode.h"
 
 @interface EatFishObjPlayerNode()
+{
+    enum EatFishObjPlayerNodeStatus _status;
+    
+}
 
 //初始化时的无敌时间
 - (void)invincible;
@@ -39,6 +43,8 @@
         //无敌时间
         self.statusInvincibleTime = APP_PLAYER_INVINCIBLE;
         [self invincible];
+        
+        _status = kEatFishObjPlayerNodeStatusSmall;
         
         //test
         //self.statusInvincibleTime = APP_PLAYER_INVINCIBLE2;
@@ -73,17 +79,44 @@
 - (void)invincibleCallback:(ccTime)dt
 {
     self.statusInvincibleTime--;
+    
+    CCNode *water = [self getChildByTag:kEatFishObjPlayerNodeTagWater];
+    
     if(self.statusInvincibleTime == 0)
     {
         //没有了无敌时间就修改状态和清理水泡
         self.statusIsInvincible = NO;
-        CCNode *water = [self getChildByTag:kEatFishObjPlayerNodeTagWater];
+        
         if(water)
             [water removeFromParentAndCleanup:YES];
         
         [self unschedule:@selector(invincibleCallback:)];
     }
-    
+    else
+    {
+        if(water)
+        {
+            [water setPosition:CGPointMake(self.contentSize.width / 2, self.contentSize.height / 2)];
+            switch (_status)
+            {
+                case kEatFishObjPlayerNodeStatusMiddle:
+                    //中等状态
+                    [water setScale:10.0];
+                
+                    break;
+                case kEatFishObjPlayerNodeStatusBig:
+                    //变大状态
+                    [water setScale:15.0];
+                
+                    break;
+                default:                
+                    //默认状态
+                    [water setScale:5.0];
+                
+                    break;
+            }
+        }
+    }
 }
 
 - (void)invincible2
@@ -110,12 +143,14 @@
 
 - (void)invincible2Callback:(ccTime)dt
 {
+    CCNode *water = [self getChildByTag:kEatFishObjPlayerNodeTagWater];
+    
     self.statusInvincibleTime--;
     if(self.statusInvincibleTime == 0)
     {
         //没有了无敌时间就修改状态和清理水泡粒子效果
         self.statusIsInvincible = NO;
-        CCNode *water = [self getChildByTag:kEatFishObjPlayerNodeTagWater];
+        
         if(water)
         {
             [water stopAllActions];
@@ -131,15 +166,98 @@
         
         [self unschedule:@selector(invincible2Callback:)];
     }
-    else if(self.statusInvincibleTime <= 3)
+    else
     {
-        //剩下最后的3秒执行闪烁效果
-        CCBlink *blink = [CCBlink actionWithDuration:1.0 blinks:5];
-        CCNode *water = [self getChildByTag:kEatFishObjPlayerNodeTagWater];
-        [water runAction:blink];
+        if(water)
+        {
+            [water setPosition:CGPointMake(self.contentSize.width / 2, self.contentSize.height / 2)];
+            switch (_status)
+            {
+                case kEatFishObjPlayerNodeStatusMiddle:
+                    //中等状态
+                    [water setScale:10.0];
+                    
+                    break;
+                case kEatFishObjPlayerNodeStatusBig:
+                    //变大状态
+                    [water setScale:15.0];
+                    
+                    break;
+                default:
+                    //默认状态
+                    [water setScale:5.0];
+                    
+                    break;
+            }
+        }
         
+        if(self.statusInvincibleTime <= 3)
+        {
+            //剩下最后的3秒执行闪烁效果
+            CCBlink *blink = [CCBlink actionWithDuration:1.0 blinks:5];
+            
+            if(water)
+                [water runAction:blink];
+        }
     }
     
+}
+
+- (void)changeStatus:(enum EatFishObjPlayerNodeStatus)status
+{
+    if(_status == status)
+        return;
+    
+    //清理旧的状态
+    CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
+    [fishObj stopAllActions];
+    [fishObj removeFromParentAndCleanup:YES];
+    
+    NSArray *fishSpriteFrameNames = NULL;
+    
+    _status = status;
+    switch (_status)
+    {
+        case kEatFishObjPlayerNodeStatusMiddle:
+        {
+            //中等状态
+            fishSpriteFrameNames = [EatFishObjFishData getPlayMFish];
+            
+        }
+            break;
+        case kEatFishObjPlayerNodeStatusBig:
+        {
+            //变大状态
+            fishSpriteFrameNames = [EatFishObjFishData getPlayBFish];
+            
+        }
+            break;
+        default:
+        {
+            //默认状态
+            fishSpriteFrameNames = [EatFishObjFishData getPlayFish];
+            
+        }
+            break;
+    }
+    
+    NSMutableArray *animationSpriteFrames = [NSMutableArray array];
+    for (NSString *fishSpriteFrameName in fishSpriteFrameNames)
+    {
+        CCSpriteFrame *animationSpriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:fishSpriteFrameName];
+        [animationSpriteFrames addObject:animationSpriteFrame];
+    }
+    //生成帧动画
+    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
+    CCAnimate *anim = [CCAnimate actionWithAnimation:animation];
+    
+    CCSprite *newFishObj = [CCSprite spriteWithSpriteFrame:[animationSpriteFrames objectAtIndex:0]];
+    [self setContentSize:newFishObj.contentSize];
+    
+    [newFishObj setPosition:CGPointMake(self.contentSize.width / 2, self.contentSize.height / 2)];
+    [newFishObj setTag:kEatFishObjFishNodeTagMainSprite];
+    [self addChild:newFishObj];
+    [newFishObj runAction:[CCRepeatForever actionWithAction:anim]];
 }
 
 @end

@@ -7,12 +7,21 @@
 //
 
 #import "EatFishObjFishNode.h"
+#import "EatFishObjFishData.h"
 #import "AppConfig.h"
 
 enum EatFishObjPlayerNodeTag
 {
     kEatFishObjPlayerNodeTagWater = 1,
     kEatFishObjPlayerNodeTagFlower = 2
+    
+};
+
+enum EatFishObjPlayerNodeStatus
+{
+    kEatFishObjPlayerNodeStatusSmall = 0,
+    kEatFishObjPlayerNodeStatusMiddle = 1,
+    kEatFishObjPlayerNodeStatusBig = 2
     
 };
 
@@ -23,5 +32,7 @@ enum EatFishObjPlayerNodeTag
 
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
 - (id)initWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
+
+- (void)changeStatus:(enum EatFishObjPlayerNodeStatus)status;
 
 @end
