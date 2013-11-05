@@ -14,5 +14,6 @@
 #define APP_PLAYER_INVINCIBLE 4.0 //玩家的初始化无敌时间
 #define APP_PLAYER_INVINCIBLE2 30.0 //玩家使用道具获得的无敌时间
 #define APP_TRANSITION 1.0f //过场时间
+#define APP_PLAYER_LIFE 2 //player默认的生命值
 
 #endif
