@@ -24,6 +24,10 @@
 - (void)onMenuTouched:(id)sender;
 - (void)onButtonTouched:(id)sender;
 
+- (void)changeScore:(NSInteger)score; //分数发生改变时调用
+- (void)changeCheckpoints:(NSInteger)checkpoints; //关卡发生改变时调用
+- (void)changePlayerLife:(NSInteger)playerLife; //player生命值发生改变时调用
+
 @end
 
 @implementation EatFishGameScene
@@ -34,6 +38,11 @@
     if(self)
     {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
+        
+        //游戏的初始化数据
+        _score = 0;
+        _checkpoints = 1;
+        _playerLife = APP_PLAYER_LIFE;
         
         //随机背景
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Fishall.plist"];
@@ -63,13 +72,16 @@
         [player setTag:kEatFishGameSceneTagPlayer];
         [self addChild:player];
         
+        //test
+        //[player changeStatus:kEatFishObjPlayerNodeStatusBig];
+        
         //右上角的部分
-        CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:@"关卡：1" fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+        CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"关卡：%i", _checkpoints] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
         [checkpointsLab setPosition:CGPointMake(winSize.width - 50, winSize.height - 12)];
         [checkpointsLab setTag:kEatFishGameSceneTagCheckpoints];
         [self addChild:checkpointsLab];
         
-        CCLabelTTF *scoreLab = [CCLabelTTF labelWithString:@"分数：0" fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+        CCLabelTTF *scoreLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"分数：%i", _score] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
         [scoreLab setPosition:CGPointMake(winSize.width - 50, winSize.height - 28)];
         [scoreLab setTag:kEatFishGameSceneTagScore];
         [self addChild:scoreLab];
@@ -88,17 +100,20 @@
         //左上角的部分
         CCSprite *progressBg = [CCSprite spriteWithSpriteFrameName:@"progress.png"];
         [progressBg setPosition:CGPointMake(40, 305)];
+        [progressBg setTag:kEatFishGameSceneTagProgressBg];
         [self addChild:progressBg];
         
         CCSprite *fishLife = [CCSprite spriteWithSpriteFrameName:@"fishlife.png"];
         [fishLife setPosition:CGPointMake(35, 275)];
+        [fishLife setTag:kEatFishGameSceneTagFishLife];
         [self addChild:fishLife];
         
-        CCLabelTTF *fishLifeLab = [CCLabelTTF labelWithString:@"1" fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(50, 20) hAlignment:kCCTextAlignmentLeft];
+        CCLabelTTF *fishLifeLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%i", _playerLife] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(50, 20) hAlignment:kCCTextAlignmentLeft];
         [fishLifeLab setPosition:CGPointMake(70, 270)];
+        [fishLifeLab setTag:kEatFishGameSceneTagFishLifeLab];
         [self addChild:fishLifeLab];
         
-        //如果有过场，需要延时执行这个方法
+        //配合过场的时间，所以延时执行这个方法
         [self scheduleOnce:@selector(gameStart) delay:APP_TRANSITION];
     }
     return self;
@@ -213,7 +228,8 @@
         {
             if(![[CCDirector sharedDirector] isPaused])
             {
-                NSLog(@"暂停游戏");
+                //NSLog(@"暂停游戏");
+                [[SimpleAudioEngine sharedEngine] playEffect:@"btn.wav"];
                 [[CCDirector sharedDirector] pause];
                 
                 CGSize winSize = [[CCDirector sharedDirector] winSize];
@@ -239,6 +255,7 @@
 
 - (void)onButtonTouched:(id)sender
 {
+    [[SimpleAudioEngine sharedEngine] playEffect:@"btn.wav"];
     CCNode *btn = (CCNode*)sender;
     switch (btn.tag)
     {
@@ -270,7 +287,6 @@
         case kEatFishGameSceneTagPauseBtnQuit:
         {
             //NSLog(@"退出游戏");
-            
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:APP_ALERT_TITLE message:@"是否退出游戏？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil] autorelease];
             [alert setTag:kEatFishGameSceneAlertTagQuit];
             [alert show];
@@ -299,6 +315,30 @@
         }
             break;
     }
+}
+
+- (void)changeScore:(NSInteger)score
+{
+    _score = score;
+    
+    CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
+    [scoreLab setString:[NSString stringWithFormat:@"分数：%i", _score]];
+}
+
+- (void)changeCheckpoints:(NSInteger)checkpoints
+{
+    _checkpoints = checkpoints;
+    
+    CCLabelTTF *checkpointsLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagCheckpoints];
+    [checkpointsLab setString:[NSString stringWithFormat:@"关卡：%i", _checkpoints]];    
+}
+
+- (void)changePlayerLife:(NSInteger)playerLife
+{
+    _playerLife = playerLife;
+    
+    CCLabelTTF *fishLifeLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagFishLifeLab];
+    [fishLifeLab setString:[NSString stringWithFormat:@"%i", _playerLife]];
 }
 
 @end

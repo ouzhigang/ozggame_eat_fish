@@ -27,6 +27,9 @@ enum EatFishGameSceneTag
     kEatFishGameSceneTagPauseBtnEffect = 11,
     kEatFishGameSceneTagPauseBtnQuit = 12,
     kEatFishGameSceneTagPauseMainNode = 13,
+    kEatFishGameSceneTagProgressBg = 14,
+    kEatFishGameSceneTagFishLife = 15,
+    kEatFishGameSceneTagFishLifeLab = 16
     
 };
 
