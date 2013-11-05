@@ -68,4 +68,10 @@
     return data;
 }
 
++ (NSArray*)getJellyFish
+{
+    NSArray *data = [NSArray arrayWithObjects:@"jellyfish1.png", @"jellyfish2.png", @"jellyfish3.png", @"jellyfish4.png", @"jellyfish5.png", @"jellyfish6.png", @"jellyfish7.png", @"jellyfish8.png", @"jellyfish9.png", @"jellyfish10.png", @"jellyfish11.png", @"jellyfish12.png", @"jellyfish13.png", @"jellyfish14.png", @"jellyfish15.png", @"jellyfish16.png", @"jellyfish17.png", @"jellyfish18.png", @"jellyfish19.png", @"jellyfish20.png", @"jellyfish21.png", @"jellyfish22.png", @"jellyfish23.png", @"jellyfish24.png", nil];
+    return data;    
+}
+
 @end
