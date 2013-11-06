@@ -17,6 +17,7 @@
 		8924A90F1825D240000188FA /* growth.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8924A9071825D240000188FA /* growth.mp3 */; };
 		8924A9101825D240000188FA /* jellyfish.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8924A9081825D240000188FA /* jellyfish.mp3 */; };
 		8924A9111825D240000188FA /* playbyeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8924A9091825D240000188FA /* playbyeat.mp3 */; };
+		8926DF92182A700800537498 /* EatFishObjEnemyFishNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8926DF91182A700800537498 /* EatFishObjEnemyFishNode.m */; };
 		893A1BA1182616BC00415C0B /* EatFishGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 893A1BA0182616BC00415C0B /* EatFishGameScene.m */; };
 		893A1BA4182620D100415C0B /* Fishall.plist in Resources */ = {isa = PBXBuildFile; fileRef = 893A1BA2182620D100415C0B /* Fishall.plist */; };
 		893A1BA5182620D100415C0B /* Fishall.png in Resources */ = {isa = PBXBuildFile; fileRef = 893A1BA3182620D100415C0B /* Fishall.png */; };
@@ -234,6 +235,8 @@
 		8924A9071825D240000188FA /* growth.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = growth.mp3; sourceTree = "<group>"; };
 		8924A9081825D240000188FA /* jellyfish.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jellyfish.mp3; sourceTree = "<group>"; };
 		8924A9091825D240000188FA /* playbyeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = playbyeat.mp3; sourceTree = "<group>"; };
+		8926DF90182A700800537498 /* EatFishObjEnemyFishNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EatFishObjEnemyFishNode.h; sourceTree = "<group>"; };
+		8926DF91182A700800537498 /* EatFishObjEnemyFishNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EatFishObjEnemyFishNode.m; sourceTree = "<group>"; };
 		893A1B9F182616BC00415C0B /* EatFishGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EatFishGameScene.h; sourceTree = "<group>"; };
 		893A1BA0182616BC00415C0B /* EatFishGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EatFishGameScene.m; sourceTree = "<group>"; };
 		893A1BA2182620D100415C0B /* Fishall.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Fishall.plist; sourceTree = "<group>"; };
@@ -664,6 +667,8 @@
 				893A1BB31826270300415C0B /* EatFishObjPlayerNode.m */,
 				9E3364501829E6830078AE2F /* EatFishObjJellyfishNode.h */,
 				9E3364511829E6830078AE2F /* EatFishObjJellyfishNode.m */,
+				8926DF90182A700800537498 /* EatFishObjEnemyFishNode.h */,
+				8926DF91182A700800537498 /* EatFishObjEnemyFishNode.m */,
 			);
 			name = scene_game;
 			sourceTree = "<group>";
@@ -1552,6 +1557,7 @@
 				8975B99318252FB8006A957F /* CGPointExtension.m in Sources */,
 				8975B89718252FB6006A957F /* CCActionPageTurn3D.m in Sources */,
 				8975B9E818252FB8006A957F /* vec3.c in Sources */,
+				8926DF92182A700800537498 /* EatFishObjEnemyFishNode.m in Sources */,
 				8975B99A18252FB8006A957F /* TGAlib.m in Sources */,
 				8976179918253A0B00C0B854 /* CCBAnimationManager.m in Sources */,
 				8975B8A318252FB6006A957F /* CCAnimation.m in Sources */,

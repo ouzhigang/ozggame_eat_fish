@@ -16,6 +16,13 @@
 #define APP_TRANSITION 1.0f //过场时间
 #define APP_PLAYER_LIFE 2 //player默认的生命值
 #define APP_AI_JELLYFISH 0.0005 //水母每帧的出现机率 1/2000的机率
+//各个AI鱼的出现机率
+#define APP_AI_FISH1 0.025
+#define APP_AI_FISH2 0.025
+#define APP_AI_FISH3 0.0125
+#define APP_AI_FISH4 0.0075
+#define APP_AI_FISH5 0.0025
+#define APP_AI_FISH6 0.0025
 
 #define APP_CFG_BGSOUND @"APP_CFG_BGSOUND" //是否播放背景声音
 #define APP_CFG_EFFECT @"APP_CFG_EFFECT" //是否播放效果音

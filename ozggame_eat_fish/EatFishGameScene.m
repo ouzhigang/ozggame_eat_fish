@@ -29,6 +29,11 @@
 - (void)changePlayerLife:(NSInteger)playerLife; //player生命值发生改变时调用
 
 - (void)jellyfishMoveEnd:(id)sender; //水母的动作执行完毕后执行
+- (void)enemyFishMoveEnd:(id)sender; //AI鱼的动作执行完毕后执行
+
+//生成随机AI鱼的左边点和右边点
+- (CGPoint)enemyFishRandomLeftPoint:(EatFishObjEnemyFishNode*)_enemyFishNode;
+- (CGPoint)enemyFishRandomRightPoint:(EatFishObjEnemyFishNode*)_enemyFishNode;
 
 @end
 
@@ -365,6 +370,7 @@
     //player
     EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
     
+    //水母
     if([OzgCCUtility randomRate:APP_AI_JELLYFISH])
     {
         //NSLog(@"水母出现了");
@@ -375,7 +381,6 @@
         
         [jellyfish setPosition:CGPointMake(srcX, -jellyfish.contentSize.height / 2)];
         
-        
         [nodeAI addChild:jellyfish];
         
         ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:15.0];
@@ -383,6 +388,36 @@
         
     }
     
+    //fish1
+    if([OzgCCUtility randomRate:APP_AI_FISH1])
+    {
+        //NSLog(@"enemy fish1出现了");
+        
+        EatFishObjEnemyFishNode *enemyFishNode = [EatFishObjEnemyFishNode nodeWithStatus:kEatFishObjEnemyFishNodeStatus1];
+        CGPoint startPoint;
+        CGPoint endPoint;
+        //0.5为左边右边的机率各为50%
+        if([OzgCCUtility randomRate:0.5])
+        {
+            //左边出现
+            startPoint = [self enemyFishRandomLeftPoint:enemyFishNode];
+            endPoint = [self enemyFishRandomRightPoint:enemyFishNode];
+            [enemyFishNode orientationRight]; //左边出现需要面向右边
+        }
+        else
+        {
+            //右边出现
+            startPoint = [self enemyFishRandomRightPoint:enemyFishNode];
+            endPoint = [self enemyFishRandomLeftPoint:enemyFishNode];
+            [enemyFishNode orientationLeft]; //右边出现需要面向左边
+        }
+        [enemyFishNode setPosition:startPoint];
+        [nodeAI addChild:enemyFishNode];
+        
+        ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:20.0];
+        [enemyFishNode runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:moveTime position:endPoint] two:[CCCallFuncN actionWithTarget:self selector:@selector(enemyFishMoveEnd:)]]];
+    }
+        
     //碰撞
     if(!player.statusIsInvincible)
     {
@@ -405,6 +440,33 @@
     EatFishObjJellyfishNode *jellyfish = (EatFishObjJellyfishNode*)sender;
     [jellyfish removeFromParentAndCleanup:YES];
     
+}
+
+- (void)enemyFishMoveEnd:(id)sender
+{
+    //NSLog(@"enemy fish消失了");
+    EatFishObjEnemyFishNode *enemyFishNode = (EatFishObjEnemyFishNode*)sender;
+    [enemyFishNode removeFromParentAndCleanup:YES];
+}
+
+- (CGPoint)enemyFishRandomLeftPoint:(EatFishObjEnemyFishNode*)_enemyFishNode
+{
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    CGFloat x = 0;
+    CGFloat minY = _enemyFishNode.contentSize.height / 2;
+    CGFloat maxY = winSize.height - minY;
+    CGFloat y = [OzgCCUtility randomRange:minY withMaxValue:maxY];
+    return CGPointMake(x, y);
+}
+
+- (CGPoint)enemyFishRandomRightPoint:(EatFishObjEnemyFishNode*)_enemyFishNode
+{
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    CGFloat x = winSize.width + (_enemyFishNode.contentSize.width / 2);
+    CGFloat minY = _enemyFishNode.contentSize.height / 2;
+    CGFloat maxY = winSize.height - minY;
+    CGFloat y = [OzgCCUtility randomRange:minY withMaxValue:maxY];
+    return CGPointMake(x, y);
 }
 
 @end

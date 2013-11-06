@@ -11,6 +11,7 @@
 #import "EatFishObjPlayerNode.h"
 #import "EatFishStartScene.h"
 #import "EatFishObjJellyfishNode.h"
+#import "EatFishObjEnemyFishNode.h"
 
 enum EatFishGameSceneTag
 {
