@@ -35,6 +35,8 @@
 - (CGPoint)enemyFishRandomLeftPoint:(EatFishObjEnemyFishNode*)_enemyFishNode;
 - (CGPoint)enemyFishRandomRightPoint:(EatFishObjEnemyFishNode*)_enemyFishNode;
 
+- (void)enemyFishEmergence:(EatFishObjEnemyFishNode*)_enemyFishNode; //出现了一条AI鱼
+
 @end
 
 @implementation EatFishGameScene
@@ -364,7 +366,7 @@
 {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
-    //水母层
+    //AI鱼和水母出现的层
     CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
     
     //player
@@ -394,30 +396,54 @@
         //NSLog(@"enemy fish1出现了");
         
         EatFishObjEnemyFishNode *enemyFishNode = [EatFishObjEnemyFishNode nodeWithStatus:kEatFishObjEnemyFishNodeStatus1];
-        CGPoint startPoint;
-        CGPoint endPoint;
-        //0.5为左边右边的机率各为50%
-        if([OzgCCUtility randomRate:0.5])
-        {
-            //左边出现
-            startPoint = [self enemyFishRandomLeftPoint:enemyFishNode];
-            endPoint = [self enemyFishRandomRightPoint:enemyFishNode];
-            [enemyFishNode orientationRight]; //左边出现需要面向右边
-        }
-        else
-        {
-            //右边出现
-            startPoint = [self enemyFishRandomRightPoint:enemyFishNode];
-            endPoint = [self enemyFishRandomLeftPoint:enemyFishNode];
-            [enemyFishNode orientationLeft]; //右边出现需要面向左边
-        }
-        [enemyFishNode setPosition:startPoint];
-        [nodeAI addChild:enemyFishNode];
-        
-        ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:20.0];
-        [enemyFishNode runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:moveTime position:endPoint] two:[CCCallFuncN actionWithTarget:self selector:@selector(enemyFishMoveEnd:)]]];
+        [self enemyFishEmergence:enemyFishNode];
     }
+    
+    //fish2
+    if([OzgCCUtility randomRate:APP_AI_FISH2])
+    {
+        //NSLog(@"enemy fish2出现了");
         
+        EatFishObjEnemyFishNode *enemyFishNode = [EatFishObjEnemyFishNode nodeWithStatus:kEatFishObjEnemyFishNodeStatus2];
+        [self enemyFishEmergence:enemyFishNode];
+    }
+    
+    //fish3
+    if([OzgCCUtility randomRate:APP_AI_FISH3])
+    {
+        //NSLog(@"enemy fish3出现了");
+        
+        EatFishObjEnemyFishNode *enemyFishNode = [EatFishObjEnemyFishNode nodeWithStatus:kEatFishObjEnemyFishNodeStatus3];
+        [self enemyFishEmergence:enemyFishNode];
+    }
+    
+    //fish4
+    if([OzgCCUtility randomRate:APP_AI_FISH4])
+    {
+        //NSLog(@"enemy fish4出现了");
+        
+        EatFishObjEnemyFishNode *enemyFishNode = [EatFishObjEnemyFishNode nodeWithStatus:kEatFishObjEnemyFishNodeStatus4];
+        [self enemyFishEmergence:enemyFishNode];
+    }
+    
+    //fish5
+    if([OzgCCUtility randomRate:APP_AI_FISH5])
+    {
+        //NSLog(@"enemy fish5出现了");
+        
+        EatFishObjEnemyFishNode *enemyFishNode = [EatFishObjEnemyFishNode nodeWithStatus:kEatFishObjEnemyFishNodeStatus5];
+        [self enemyFishEmergence:enemyFishNode];
+    }
+    
+    //fish6
+    if([OzgCCUtility randomRate:APP_AI_FISH6])
+    {
+        //NSLog(@"enemy fish6出现了");
+        
+        EatFishObjEnemyFishNode *enemyFishNode = [EatFishObjEnemyFishNode nodeWithStatus:kEatFishObjEnemyFishNodeStatus6];
+        [self enemyFishEmergence:enemyFishNode];
+    }
+    
     //碰撞
     if(!player.statusIsInvincible)
     {
@@ -467,6 +493,34 @@
     CGFloat maxY = winSize.height - minY;
     CGFloat y = [OzgCCUtility randomRange:minY withMaxValue:maxY];
     return CGPointMake(x, y);
+}
+
+- (void)enemyFishEmergence:(EatFishObjEnemyFishNode*)_enemyFishNode
+{
+    CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
+    
+    CGPoint startPoint;
+    CGPoint endPoint;
+    //0.5为左边右边的机率各为50%
+    if([OzgCCUtility randomRate:0.5])
+    {
+        //左边出现
+        startPoint = [self enemyFishRandomLeftPoint:_enemyFishNode];
+        endPoint = [self enemyFishRandomRightPoint:_enemyFishNode];
+        [_enemyFishNode orientationRight]; //左边出现需要面向右边
+    }
+    else
+    {
+        //右边出现
+        startPoint = [self enemyFishRandomRightPoint:_enemyFishNode];
+        endPoint = [self enemyFishRandomLeftPoint:_enemyFishNode];
+        [_enemyFishNode orientationLeft]; //右边出现需要面向左边
+    }
+    [_enemyFishNode setPosition:startPoint];
+    [nodeAI addChild:_enemyFishNode];
+    
+    ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:20.0];
+    [_enemyFishNode runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:moveTime position:endPoint] two:[CCCallFuncN actionWithTarget:self selector:@selector(enemyFishMoveEnd:)]]];
 }
 
 @end
