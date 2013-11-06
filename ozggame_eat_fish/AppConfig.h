@@ -15,7 +15,10 @@
 #define APP_PLAYER_INVINCIBLE2 30.0 //玩家使用道具获得的无敌时间
 #define APP_TRANSITION 1.0f //过场时间
 #define APP_PLAYER_LIFE 2 //player默认的生命值
-#define APP_AI_JELLYFISH 0.001 //水母每帧的出现几率
+#define APP_AI_JELLYFISH 0.0005 //水母每帧的出现机率 1/2000的机率
+
+#define APP_CFG_BGSOUND @"APP_CFG_BGSOUND" //是否播放背景声音
+#define APP_CFG_EFFECT @"APP_CFG_EFFECT" //是否播放效果音
 
 //游戏对象的名称
 #define APP_OBJ_TYPE_PLAYER @"player"
