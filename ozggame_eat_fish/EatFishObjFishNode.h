@@ -16,6 +16,8 @@ enum EatFishObjFishNodeTag
 
 @interface EatFishObjFishNode : CCNode
 
+@property (nonatomic, assign)NSString* typeName;
+
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
 - (id)initWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
 

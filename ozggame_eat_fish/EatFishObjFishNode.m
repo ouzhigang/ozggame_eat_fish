@@ -14,6 +14,8 @@
 
 @implementation EatFishObjFishNode
 
+@synthesize typeName;
+
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames
 {
     EatFishObjFishNode *obj = [[[EatFishObjFishNode alloc] initWithFishSpriteFrameNames:fishSpriteFrameNames] autorelease];
@@ -53,8 +55,11 @@
 - (void)dealloc
 {
     CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
-    [fishObj stopAllActions];
-    [fishObj removeFromParentAndCleanup:YES];
+    if(fishObj)
+    {
+        [fishObj stopAllActions];
+        [fishObj removeFromParentAndCleanup:YES];
+    }
     
     [super dealloc];
 }

@@ -28,6 +28,8 @@
 - (void)changeCheckpoints:(NSInteger)checkpoints; //关卡发生改变时调用
 - (void)changePlayerLife:(NSInteger)playerLife; //player生命值发生改变时调用
 
+- (void)jellyfishMoveEnd:(id)sender; //水母的动作执行完毕后执行
+
 @end
 
 @implementation EatFishGameScene
@@ -75,6 +77,13 @@
         //test
         //[player changeStatus:kEatFishObjPlayerNodeStatusBig];
         
+        //AI控制的鱼和水母的层
+        CCNode *nodeAI = [CCNode node];
+        [nodeAI setAnchorPoint:CGPointZero];
+        [nodeAI setPosition:CGPointZero];
+        [nodeAI setTag:kEatFishGameSceneTagNodeAI];
+        [self addChild:nodeAI];
+        
         //右上角的部分
         CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"关卡：%i", _checkpoints] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
         [checkpointsLab setPosition:CGPointMake(winSize.width - 50, winSize.height - 12)];
@@ -115,6 +124,7 @@
         
         //配合过场的时间，所以延时执行这个方法
         [self scheduleOnce:@selector(gameStart) delay:APP_TRANSITION];
+        
     }
     return self;
 }
@@ -171,6 +181,8 @@
     CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
     [menu setEnabled:YES];
     
+    //随机性质的事件和AI都在这里计算
+    [self scheduleUpdate];
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -305,6 +317,7 @@
             //是否退出游戏
             if(buttonIndex == 1)
             {
+                [self unscheduleUpdate];
                 [[CCDirector sharedDirector] resume];
                 
                 CCScene *s = [EatFishStartScene scene];
@@ -339,6 +352,59 @@
     
     CCLabelTTF *fishLifeLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagFishLifeLab];
     [fishLifeLab setString:[NSString stringWithFormat:@"%i", _playerLife]];
+}
+
+//cocos2d update
+- (void)update:(ccTime)delta
+{
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    
+    //水母层
+    CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
+    
+    //player
+    EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
+    
+    if([OzgCCUtility randomRate:APP_AI_JELLYFISH])
+    {
+        //NSLog(@"水母出现了");
+        
+        EatFishObjJellyfishNode *jellyfish = [EatFishObjJellyfishNode node];
+        
+        CGFloat srcX = [OzgCCUtility randomRange:jellyfish.contentSize.width / 2 withMaxValue:winSize.width - (jellyfish.contentSize.width / 2)];
+        
+        [jellyfish setPosition:CGPointMake(srcX, -jellyfish.contentSize.height / 2)];
+        
+        
+        [nodeAI addChild:jellyfish];
+        
+        ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:15.0];
+        [jellyfish runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:moveTime position:CGPointMake(srcX, winSize.height + (jellyfish.contentSize.height / 2))] two:[CCCallFuncN actionWithTarget:self selector:@selector(jellyfishMoveEnd:)]]];
+        
+    }
+    
+    //碰撞
+    if(!player.statusIsInvincible)
+    {
+        CCArray *allFishs = [nodeAI children];
+        EatFishObjJellyfishNode *srcObj = NULL;
+        CCARRAY_FOREACH(allFishs, srcObj)
+        {
+            if(CGRectIntersectsRect([srcObj boundingBox], [player boundingBox]))
+            {
+                NSLog(@"player跟水母碰撞了");
+            }
+        }
+    }
+    
+}
+
+- (void)jellyfishMoveEnd:(id)sender
+{
+    //NSLog(@"水母消失了");
+    EatFishObjJellyfishNode *jellyfish = (EatFishObjJellyfishNode*)sender;
+    [jellyfish removeFromParentAndCleanup:YES];
+    
 }
 
 @end

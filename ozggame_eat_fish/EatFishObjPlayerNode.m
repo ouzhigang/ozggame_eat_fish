@@ -10,7 +10,6 @@
 
 @interface EatFishObjPlayerNode()
 {
-    enum EatFishObjPlayerNodeStatus _status;
     
 }
 
@@ -26,6 +25,7 @@
 
 @implementation EatFishObjPlayerNode
 
+@synthesize status;
 @synthesize statusIsInvincible;
 @synthesize statusInvincibleTime;
 
@@ -44,7 +44,8 @@
         self.statusInvincibleTime = APP_PLAYER_INVINCIBLE;
         [self invincible];
         
-        _status = kEatFishObjPlayerNodeStatusSmall;
+        self.typeName = APP_OBJ_TYPE_PLAYER; //这个属性来自父类
+        self.status = kEatFishObjPlayerNodeStatusSmall;
         
         //test
         //self.statusInvincibleTime = APP_PLAYER_INVINCIBLE2;
@@ -97,7 +98,7 @@
         if(water)
         {
             [water setPosition:CGPointMake(self.contentSize.width / 2, self.contentSize.height / 2)];
-            switch (_status)
+            switch (self.status)
             {
                 case kEatFishObjPlayerNodeStatusMiddle:
                     //中等状态
@@ -171,7 +172,7 @@
         if(water)
         {
             [water setPosition:CGPointMake(self.contentSize.width / 2, self.contentSize.height / 2)];
-            switch (_status)
+            switch (self.status)
             {
                 case kEatFishObjPlayerNodeStatusMiddle:
                     //中等状态
@@ -203,9 +204,9 @@
     
 }
 
-- (void)changeStatus:(enum EatFishObjPlayerNodeStatus)status
+- (void)changeStatus:(enum EatFishObjPlayerNodeStatus)_status
 {
-    if(_status == status)
+    if(self.status == _status)
         return;
     
     //清理旧的状态
@@ -215,8 +216,8 @@
     
     NSArray *fishSpriteFrameNames = NULL;
     
-    _status = status;
-    switch (_status)
+    self.status = _status;
+    switch (self.status)
     {
         case kEatFishObjPlayerNodeStatusMiddle:
         {

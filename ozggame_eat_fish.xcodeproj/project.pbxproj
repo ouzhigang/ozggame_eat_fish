@@ -215,6 +215,7 @@
 		89C64F72182678A10010CC37 /* blister.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89C64F71182678A10010CC37 /* blister.plist */; };
 		9E2DC72F1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DC72D1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi */; };
 		9E2DC7301828A0B700B6CEB0 /* scene_game_pausemenu.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DC72E1828A0B700B6CEB0 /* scene_game_pausemenu.ccbi */; };
+		9E3364521829E6830078AE2F /* EatFishObjJellyfishNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E3364511829E6830078AE2F /* EatFishObjJellyfishNode.m */; };
 		9E739959182738A700A251CE /* OzgCCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E739958182738A700A251CE /* OzgCCUtility.m */; };
 		9E73995C18273C5000A251CE /* scene_start_help-ip5.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 9E73995A18273C5000A251CE /* scene_start_help-ip5.ccbi */; };
 		9E73995D18273C5000A251CE /* scene_start-ip5.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 9E73995B18273C5000A251CE /* scene_start-ip5.ccbi */; };
@@ -610,6 +611,8 @@
 		89C64F71182678A10010CC37 /* blister.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = blister.plist; sourceTree = "<group>"; };
 		9E2DC72D1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = "scene_game_pausemenu-ip5.ccbi"; sourceTree = "<group>"; };
 		9E2DC72E1828A0B700B6CEB0 /* scene_game_pausemenu.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = scene_game_pausemenu.ccbi; sourceTree = "<group>"; };
+		9E3364501829E6830078AE2F /* EatFishObjJellyfishNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EatFishObjJellyfishNode.h; sourceTree = "<group>"; };
+		9E3364511829E6830078AE2F /* EatFishObjJellyfishNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EatFishObjJellyfishNode.m; sourceTree = "<group>"; };
 		9E739957182738A700A251CE /* OzgCCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzgCCUtility.h; sourceTree = "<group>"; };
 		9E739958182738A700A251CE /* OzgCCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzgCCUtility.m; sourceTree = "<group>"; };
 		9E73995A18273C5000A251CE /* scene_start_help-ip5.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = "scene_start_help-ip5.ccbi"; sourceTree = "<group>"; };
@@ -659,6 +662,8 @@
 				893A1BB0182626E500415C0B /* EatFishObjFishNode.m */,
 				893A1BB21826270300415C0B /* EatFishObjPlayerNode.h */,
 				893A1BB31826270300415C0B /* EatFishObjPlayerNode.m */,
+				9E3364501829E6830078AE2F /* EatFishObjJellyfishNode.h */,
+				9E3364511829E6830078AE2F /* EatFishObjJellyfishNode.m */,
 			);
 			name = scene_game;
 			sourceTree = "<group>";
@@ -1500,6 +1505,7 @@
 				8975B89D18252FB6006A957F /* CCActionTiledGrid.m in Sources */,
 				8975B8E418252FB7006A957F /* CCMenuItem.m in Sources */,
 				8975B87F18252FB5006A957F /* CCActionCamera.m in Sources */,
+				9E3364521829E6830078AE2F /* EatFishObjJellyfishNode.m in Sources */,
 				897617A018253A0B00C0B854 /* CCControlButton.m in Sources */,
 				8975B9B118252FB8006A957F /* CDXPropertyModifierAction.m in Sources */,
 				897617B018253A0B00C0B854 /* unzip.c in Sources */,

@@ -10,6 +10,7 @@
 #import "EatFishObjFishNode.h"
 #import "EatFishObjPlayerNode.h"
 #import "EatFishStartScene.h"
+#import "EatFishObjJellyfishNode.h"
 
 enum EatFishGameSceneTag
 {
@@ -29,7 +30,8 @@ enum EatFishGameSceneTag
     kEatFishGameSceneTagPauseMainNode = 13,
     kEatFishGameSceneTagProgressBg = 14,
     kEatFishGameSceneTagFishLife = 15,
-    kEatFishGameSceneTagFishLifeLab = 16
+    kEatFishGameSceneTagFishLifeLab = 16,
+    kEatFishGameSceneTagNodeAI = 17
     
 };
 

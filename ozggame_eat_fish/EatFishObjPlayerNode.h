@@ -27,6 +27,7 @@ enum EatFishObjPlayerNodeStatus
 
 @interface EatFishObjPlayerNode : EatFishObjFishNode
 
+@property (nonatomic, assign)enum EatFishObjPlayerNodeStatus status; //大小状态
 @property (nonatomic, assign)BOOL statusIsInvincible; //是否是无敌状态
 @property (nonatomic, assign)int statusInvincibleTime; //无敌时间，单位为秒
 
