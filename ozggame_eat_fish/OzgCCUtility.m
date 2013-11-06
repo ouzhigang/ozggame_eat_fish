@@ -261,4 +261,12 @@
         return path;
 }
 
++ (BOOL)randomRate:(CGFloat)rate
+{
+    if(CCRANDOM_0_1() <= rate)
+        return YES;
+    
+    return NO;
+}
+
 @end
