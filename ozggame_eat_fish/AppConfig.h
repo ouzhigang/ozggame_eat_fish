@@ -17,4 +17,9 @@
 #define APP_PLAYER_LIFE 2 //player默认的生命值
 #define APP_AI_JELLYFISH 0.001 //水母每帧的出现几率
 
+//游戏对象的名称
+#define APP_OBJ_TYPE_PLAYER @"player"
+#define APP_OBJ_TYPE_FISH @"fish"
+#define APP_OBJ_TYPE_JELLYFISH @"jellyfish"
+
 #endif
