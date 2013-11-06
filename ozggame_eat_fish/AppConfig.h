@@ -15,5 +15,6 @@
 #define APP_PLAYER_INVINCIBLE2 30.0 //玩家使用道具获得的无敌时间
 #define APP_TRANSITION 1.0f //过场时间
 #define APP_PLAYER_LIFE 2 //player默认的生命值
+#define APP_AI_JELLYFISH 0.001 //水母每帧的出现几率
 
 #endif
