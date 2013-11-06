@@ -48,6 +48,7 @@
 + (CCAnimate*) createAnimate:(NSString*)plist;
 + (void)clearAnimate:(NSString*)plist;
 + (NSString*)getImagePath:(NSString*)path;
-+ (BOOL)randomRate:(CGFloat)rate; //0到1的随机抽中率，参数0.5则为50%的几率会返回YES 
++ (BOOL)randomRate:(CGFloat)rate; //0到1的随机抽中率，参数0.5则为50%的机率会返回YES 
++ (CGFloat)randomRange:(CGFloat)minValue withMaxValue:(CGFloat)maxValue; //范围随机值
 
 @end

@@ -269,4 +269,11 @@
     return NO;
 }
 
++ (CGFloat)randomRange:(CGFloat)minValue withMaxValue:(CGFloat)maxValue
+{
+    CGFloat val = maxValue - minValue;
+    val = minValue + (val * CCRANDOM_0_1());
+    return val;
+}
+
 @end
