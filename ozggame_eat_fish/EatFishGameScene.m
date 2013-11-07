@@ -445,18 +445,49 @@
     }
     
     //碰撞
-    if(!player.statusIsInvincible)
+//    if(!player.statusIsInvincible)
+//    {
+    
+//        EatFishObjJellyfishNode *srcObj = NULL;
+//        CCARRAY_FOREACH(allFishs, srcObj)
+//        {
+//            if(CGRectIntersectsRect([srcObj boundingBox], [player boundingBox]))
+//            {
+//                NSLog(@"player跟水母碰撞了");
+//            }
+//        }
+//    }
+    
+    NSArray *srcAllFishs = [[nodeAI children] getNSArray];
+    NSArray *targetAllFishs = [srcAllFishs copy];
+    for (NSInteger i = 0; i < srcAllFishs.count; i++)
     {
-        CCArray *allFishs = [nodeAI children];
-        EatFishObjJellyfishNode *srcObj = NULL;
-        CCARRAY_FOREACH(allFishs, srcObj)
+        EatFishObjFishNode *srcObj = (EatFishObjFishNode*)[srcAllFishs objectAtIndex:i];
+        
+        for (NSInteger j = 0; j < targetAllFishs.count; j++)
         {
-            if(CGRectIntersectsRect([srcObj boundingBox], [player boundingBox]))
+            EatFishObjFishNode *targetObj = (EatFishObjFishNode*)[targetAllFishs objectAtIndex:j];
+            
+            //AI鱼跟AI鱼的处理
+            if(CGRectIntersectsRect(srcObj.collisionArea, [targetObj boundingBox]))
             {
-                NSLog(@"player跟水母碰撞了");
+                if([srcObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [srcObj.typeName isEqualToString:APP_OBJ_TYPE_FISH])
+                {
+                    //NSLog(@"AI鱼跟AI鱼碰撞了");
+                    //大鱼吃小鱼
+                    if(((EatFishObjEnemyFishNode*)srcObj).status > ((EatFishObjEnemyFishNode*)targetObj).status)
+                    {
+                        [targetObj stopAllActions];
+                        [targetObj removeFromParentAndCleanup:YES];
+                    }
+                }
             }
+            
         }
+        
     }
+    
+    [targetAllFishs release];
     
 }
 
