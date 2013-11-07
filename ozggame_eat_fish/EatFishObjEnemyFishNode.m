@@ -75,6 +75,13 @@
     
 }
 
+- (CCAction*)runAction:(CCAction *)action
+{
+    //修改是否正在移动的状态
+    self.isMoving = YES;
+    return [self runAction:action];
+}
+
 - (void)stopAllActions
 {
     //修改是否正在移动的状态
