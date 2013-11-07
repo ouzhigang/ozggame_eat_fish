@@ -14,6 +14,11 @@
 
 @implementation EatFishObjEnemyFishNode
 
+@synthesize isMoving;
+@synthesize moveTimeElapsed;
+@synthesize moveTime;
+@synthesize moveStartPoint;
+@synthesize moveEndPoint;
 @synthesize status;
 
 + (id)nodeWithStatus:(enum EatFishObjEnemyFishNodeStatus)_status
@@ -50,9 +55,43 @@
     {
         self.typeName = APP_OBJ_TYPE_FISH; //这个属性来自父类
         self.status = _status;
+        
+        [self scheduleUpdate];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [self unscheduleUpdate];
+    
+    [super dealloc];
+}
+
+- (void)update:(ccTime)delta
+{
+    self.moveTimeElapsed += delta;
+    
+}
+
+- (void)stopAllActions
+{
+    //修改是否正在移动的状态
+    self.isMoving = NO;
+    [super stopAllActions];
+}
+
+- (void)resumeMove:(id)target withSelector:(SEL)selector
+{
+    if(!self.isMoving)
+    {
+        self.moveTime -= self.moveTimeElapsed; //减去经过的时间
+        
+        //self.moveStartPoint = self.position; //更新开始点
+        
+        [self runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:self.moveTime position:self.moveEndPoint] two:[CCCallFuncN actionWithTarget:target selector:selector]]];
+    }
 }
 
 @end
