@@ -14,8 +14,15 @@ enum EatFishObjFishNodeTag
     kEatFishObjFishNodeTagMainSprite = 0
 };
 
+enum EatFishObjFishNodeOrientation
+{
+    kEatFishObjFishNodeOrientationLeft = 0,
+    kEatFishObjFishNodeOrientationRight = 1
+};
+
 @interface EatFishObjFishNode : CCNode
 
+@property (nonatomic, assign)enum EatFishObjFishNodeOrientation orientation;
 @property (nonatomic, assign)NSString* typeName;
 
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;

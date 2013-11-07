@@ -14,6 +14,7 @@
 
 @implementation EatFishObjFishNode
 
+@synthesize orientation;
 @synthesize typeName;
 
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames
@@ -66,12 +67,14 @@
 
 - (void)orientationLeft
 {
+    self.orientation = kEatFishObjFishNodeOrientationLeft;
     CCSprite *fishObj = (CCSprite*)[self getChildByTag:kEatFishObjFishNodeTagMainSprite];
     [fishObj setFlipX:NO];
 }
 
 - (void)orientationRight
 {
+    self.orientation = kEatFishObjFishNodeOrientationRight;
     CCSprite *fishObj = (CCSprite*)[self getChildByTag:kEatFishObjFishNodeTagMainSprite];
     [fishObj setFlipX:YES];
 }
