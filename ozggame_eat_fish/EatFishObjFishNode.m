@@ -49,12 +49,15 @@
         [self addChild:fishObj];
         [fishObj runAction:[CCRepeatForever actionWithAction:anim]];
 
+        [self scheduleUpdate];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [self unscheduleUpdate];
+    
     CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
     if(fishObj)
     {
@@ -62,12 +65,14 @@
         [fishObj removeFromParentAndCleanup:YES];
     }
     
+    //NSLog(@"EatFishObjFishNode dealloc");
     [super dealloc];
 }
 
 - (void)orientationLeft
 {
     self.orientation = kEatFishObjFishNodeOrientationLeft;
+    
     CCSprite *fishObj = (CCSprite*)[self getChildByTag:kEatFishObjFishNodeTagMainSprite];
     [fishObj setFlipX:NO];
 }
@@ -75,8 +80,22 @@
 - (void)orientationRight
 {
     self.orientation = kEatFishObjFishNodeOrientationRight;
+    
     CCSprite *fishObj = (CCSprite*)[self getChildByTag:kEatFishObjFishNodeTagMainSprite];
     [fishObj setFlipX:YES];
+}
+
+- (void)update:(ccTime)delta
+{
+    //NSLog(@"刷新碰撞区域");
+    
+    CGPoint objZeroPoint = CGPointMake(self.position.x - (self.contentSize.width / 2), self.position.y - self.contentSize.height / 2);
+    
+    if(self.orientation == kEatFishObjFishNodeOrientationLeft)
+        self.collisionArea = CGRectMake(objZeroPoint.x, objZeroPoint.y, self.contentSize.width / 2, self.contentSize.height); //碰撞区域
+    else
+        self.collisionArea = CGRectMake(objZeroPoint.x + (self.contentSize.width / 2), objZeroPoint.y, self.contentSize.width / 2, self.contentSize.height); //碰撞区域
+    
 }
 
 @end

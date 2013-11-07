@@ -22,7 +22,8 @@ enum EatFishObjFishNodeOrientation
 
 @interface EatFishObjFishNode : CCNode
 
-@property (nonatomic, assign)enum EatFishObjFishNodeOrientation orientation;
+@property (nonatomic, assign)CGRect collisionArea; //碰撞区域
+@property (nonatomic, assign)enum EatFishObjFishNodeOrientation orientation; //朝向
 @property (nonatomic, assign)NSString* typeName;
 
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
