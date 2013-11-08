@@ -9,13 +9,23 @@
 #import "EatFishObjFishNode.h"
 
 @interface EatFishObjFishNode()
+{
+    NSMutableArray *_animationSpriteFrames;
+    
+}
 
 - (void)cumpAutoHide:(id)sender; //cump的精灵自动消失
 - (void)paralysisEnd:(id)sender; //麻痹完毕恢复正常后执行
 
+- (void)resumeMove; //继续移动
+
 @end
 
 @implementation EatFishObjFishNode
+
+@synthesize isMoving;
+@synthesize moveStartPoint;
+@synthesize moveEndPoint;
 
 @synthesize moveTimeElapsed;
 @synthesize moveTime;
@@ -35,17 +45,17 @@
     if(self)
     {
         //用SpriteFrameName生成SpriteFrame的数组
-        NSMutableArray *animationSpriteFrames = [NSMutableArray array];
+        _animationSpriteFrames = [[NSMutableArray alloc] init];
         for (NSString *fishSpriteFrameName in fishSpriteFrameNames)
         {
             CCSpriteFrame *animationSpriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:fishSpriteFrameName];
-            [animationSpriteFrames addObject:animationSpriteFrame];
+            [_animationSpriteFrames addObject:animationSpriteFrame];
         }
         //生成帧动画
-        CCAnimation *animation = [CCAnimation animationWithSpriteFrames:animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
+        CCAnimation *animation = [CCAnimation animationWithSpriteFrames:_animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
         CCAnimate *anim = [CCAnimate actionWithAnimation:animation];
         
-        CCSprite *fishObj = [CCSprite spriteWithSpriteFrame:[animationSpriteFrames objectAtIndex:0]];
+        CCSprite *fishObj = [CCSprite spriteWithSpriteFrame:[_animationSpriteFrames objectAtIndex:0]];
         
         [self setAnchorPoint:CGPointMake(0.5, 0.5)];
         [self setContentSize:fishObj.contentSize];
@@ -74,6 +84,9 @@
     CCSprite *chumSprite = (CCSprite*)[self getChildByTag:kEatFishObjFishNodeTagCump];
     if(chumSprite)
         [chumSprite removeFromParentAndCleanup:YES];
+    
+    [_animationSpriteFrames removeAllObjects];
+    [_animationSpriteFrames release];
     
     //NSLog(@"EatFishObjFishNode dealloc");
     [super dealloc];
@@ -129,20 +142,57 @@
 }
 
 - (void)paralysis
-{    
+{
+    if(!self.isMoving)
+        return;
+    
     [self stopAllActions];
     
-    CCMoveBy *act1 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(-5, 0)];
-    CCMoveBy *act2 = [CCMoveBy actionWithDuration:0.02 position:CGPointMake(10, 0)];
-    CCActionInterval *act3 = [act2 reverse];
-    CCMoveBy *act4 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(5, 0)];
+    CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
+    if(fishObj)
+        [fishObj stopAllActions];
     
+    self.isMoving = NO;
+    
+    CCMoveBy *act1 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(-3, 0)];
+    CCMoveBy *act2 = [CCMoveBy actionWithDuration:0.02 position:CGPointMake(6, 0)];
+    CCActionInterval *act3 = [act2 reverse];
+    CCMoveBy *act4 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(3, 0)];
+    
+    [self unscheduleUpdate]; //停止update里面的计数
+    
+    //麻痹5秒后恢复正常
     [self runAction:[CCSequence actions:act1, act2, act3, act4, [CCDelayTime actionWithDuration:5], [CCCallFuncN actionWithTarget:self selector:@selector(paralysisEnd:)], nil]];
 }
 
 - (void)paralysisEnd:(id)sender
 {
+    //生成帧动画
+    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:_animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
+    CCAnimate *anim = [CCAnimate actionWithAnimation:animation];
+    
+    CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
+    [fishObj runAction:[CCRepeatForever actionWithAction:anim]];
+    
+    //继续移动
+    [self resumeMove];
+}
 
+- (void)resumeMove
+{
+    [self scheduleUpdate]; //继续移动后继续执行update里面的计数
+    
+    //self.moveStartPoint = self.position; //更新开始点
+    self.isMoving = YES;
+    
+    [self runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:self.moveTime - self.moveTimeElapsed position:self.moveEndPoint] two:[CCCallFunc actionWithTarget:self selector:@selector(resumeMoveEnd)]]];
+}
+
+- (void)resumeMoveEnd
+{
+    //NSLog(@"enemy fish消失了");
+    [self stopAllActions];
+    [self removeFromParentAndCleanup:YES];
 }
 
 - (void)update:(ccTime)delta

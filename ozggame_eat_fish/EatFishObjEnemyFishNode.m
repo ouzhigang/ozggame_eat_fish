@@ -14,9 +14,6 @@
 
 @implementation EatFishObjEnemyFishNode
 
-@synthesize isMoving;
-@synthesize moveStartPoint;
-@synthesize moveEndPoint;
 @synthesize status;
 
 + (id)nodeWithStatus:(enum EatFishObjEnemyFishNodeStatus)_status
@@ -63,32 +60,6 @@
 {
         
     [super dealloc];
-}
-
-- (CCAction*)runAction:(CCAction *)action
-{
-    //修改是否正在移动的状态
-    self.isMoving = YES;
-    return [super runAction:action];
-}
-
-- (void)stopAllActions
-{
-    //修改是否正在移动的状态
-    self.isMoving = NO;
-    [super stopAllActions];
-}
-
-- (void)resumeMove:(id)target withSelector:(SEL)selector
-{
-    if(!self.isMoving)
-    {
-        self.moveTime -= self.moveTimeElapsed; //减去经过的时间
-        
-        //self.moveStartPoint = self.position; //更新开始点
-        
-        [self runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:self.moveTime position:self.moveEndPoint] two:[CCCallFuncN actionWithTarget:target selector:selector]]];
-    }
 }
 
 @end

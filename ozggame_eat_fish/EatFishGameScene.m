@@ -379,7 +379,7 @@
     CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
     
     //player
-    EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
+    //EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
     
     //水母
     if([OzgCCUtility randomRate:APP_AI_JELLYFISH])
@@ -496,10 +496,12 @@
                 }
                 else if([srcObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [targetObj.typeName isEqualToString:APP_OBJ_TYPE_JELLYFISH])
                 {
+                    //鲨鱼不执行
                     if(((EatFishObjEnemyFishNode*)srcObj).status < kEatFishObjEnemyFishNodeStatus5)
                     {
                         //AI鱼跟水母的处理
-                        NSLog(@"AI鱼跟水母碰撞了");
+                        //NSLog(@"AI鱼跟水母碰撞了");
+                        [srcObj paralysis];
                         
                     }
                 }
@@ -574,6 +576,7 @@
     
     ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:20.0];
     
+    _enemyFishNode.isMoving = YES; //执行action需要强制设置成YES
     _enemyFishNode.moveTime = moveTime;
     _enemyFishNode.moveStartPoint = startPoint;
     _enemyFishNode.moveEndPoint = endPoint;
