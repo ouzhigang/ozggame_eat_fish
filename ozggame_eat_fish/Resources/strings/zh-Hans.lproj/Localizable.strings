@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  ozggame_eat_fish
+
+  Created by 欧志刚 on 13-11-8.
+  Copyright (c) 2013年 欧志刚. All rights reserved.
+*/
+
+"Alert_Title" = "欧志提示";
+
+"StartScene_AlertBtnCancel" = "取消";
+"StartScene_AlertBtnMonitor" = "监听周边玩家";
+"StartScene_AlertBtnScan" = "扫描周边玩家";
+"StartScene_BtnStart" = "开始游戏";
+"StartScene_BtnBluetooth" = "蓝牙联机";
+"StartScene_BtnHelp" = "游戏帮助";
+"StartScene_HelpTitle" = "游戏帮助：";
+"StartScene_Help1" = "吃掉比自己小的鱼";
+"StartScene_Help2" = "避开比自己大的鱼";
+"StartScene_Help3" = "吃足够多的鱼使自己成长";
+"StartScene_HelpBtnBack" = "返回";
+
+"GameScene_PauseBtnResume" = "返回游戏";
+"GameScene_PauseBtnBgSound" = "背景音乐";
+"GameScene_PauseBtnEffect" = "效果声音";
+"GameScene_PauseBtnQuit" = "退出游戏";
+"GameScene_LabScore" = "分数：";
+"GameScene_LabCheckpoints" = "关卡：";
+"GameScene_AlertMessage" = "是否退出游戏？";
+"GameScene_AlertBtnYes" = "是";
+"GameScene_AlertBtnNo" = "否";

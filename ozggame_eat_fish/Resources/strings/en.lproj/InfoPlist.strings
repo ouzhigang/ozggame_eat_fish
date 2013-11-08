@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  ozggame_eat_fish
+
+  Created by 欧志刚 on 13-11-8.
+  Copyright (c) 2013年 欧志刚. All rights reserved.
+*/
+
+CFBundleDisplayName = "FishGame";

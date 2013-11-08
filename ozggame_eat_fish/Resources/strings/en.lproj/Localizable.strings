@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  ozggame_eat_fish
+
+  Created by 欧志刚 on 13-11-8.
+  Copyright (c) 2013年 欧志刚. All rights reserved.
+*/
+
+"Alert_Title" = "Notice";
+
+"StartScene_AlertBtnCancel" = "Cancel";
+"StartScene_AlertBtnMonitor" = "Monitor";
+"StartScene_AlertBtnScan" = "Scan";
+"StartScene_BtnStart" = "Start";
+"StartScene_BtnBluetooth" = "Bluetooth";
+"StartScene_BtnHelp" = "Help";
+"StartScene_HelpTitle" = "Help:";
+"StartScene_Help1" = "Eat smaller fish";
+"StartScene_Help2" = "Avoid fish larger than themselves";
+"StartScene_Help3" = "Eat enough fish to grow";
+"StartScene_HelpBtnBack" = "Back";
+
+"GameScene_PauseBtnResume" = "Resume";
+"GameScene_PauseBtnBgSound" = "Audio Sound";
+"GameScene_PauseBtnEffect" = "Audio Effect";
+"GameScene_PauseBtnQuit" = "Quit";
+"GameScene_LabScore" = "Score:";
+"GameScene_LabCheckpoints" = "Scene:";
+"GameScene_AlertMessage" = "Are you sure?";
+"GameScene_AlertBtnYes" = "Yes";
+"GameScene_AlertBtnNo" = "No";

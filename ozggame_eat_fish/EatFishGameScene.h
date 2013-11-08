@@ -24,7 +24,7 @@ enum EatFishGameSceneTag
     kEatFishGameSceneTagMenu = 6,
     kEatFishGameSceneTagMenuPause = 7,
     kEatFishGameSceneTagPauseBg = 8,
-    kEatFishGameSceneTagPauseBtnReset = 9,
+    kEatFishGameSceneTagPauseBtnResume = 9,
     kEatFishGameSceneTagPauseBtnBgSound = 10,
     kEatFishGameSceneTagPauseBtnEffect = 11,
     kEatFishGameSceneTagPauseBtnQuit = 12,

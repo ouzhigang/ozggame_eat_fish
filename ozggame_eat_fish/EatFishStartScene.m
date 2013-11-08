@@ -32,6 +32,15 @@
         [rootNode setTag:kEatFishStartTagRootNode];
         [self addChild:rootNode];
         
+        CCControlButton *btnStart = (CCControlButton*)[rootNode getChildByTag:kEatFishStartTagBtnStart];
+        [btnStart setTitle:NSLocalizedString(@"StartScene_BtnStart", nil) forState:CCControlStateNormal];
+        
+        CCControlButton *btnBluetooth = (CCControlButton*)[rootNode getChildByTag:kEatFishStartTagBtnBluetooth];
+        [btnBluetooth setTitle:NSLocalizedString(@"StartScene_BtnBluetooth", nil) forState:CCControlStateNormal];
+        
+        CCControlButton *btnHelp = (CCControlButton*)[rootNode getChildByTag:kEatFishStartTagBtnHelp];
+        [btnHelp setTitle:NSLocalizedString(@"StartScene_BtnHelp", nil) forState:CCControlStateNormal];
+        
     }
     return self;
 }
@@ -77,7 +86,9 @@
             [[SimpleAudioEngine sharedEngine] playEffect:@"btn.wav"];
             
             //NSLog(@"蓝牙连接");
-            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:APP_ALERT_TITLE message:@"本功能未完成" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"监听周边玩家", @"扫描周边玩家", nil] autorelease];
+//            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"StartScene_AlertBtnCancel", nil) otherButtonTitles:NSLocalizedString(@"StartScene_AlertBtnMonitor", nil), NSLocalizedString(@"StartScene_AlertBtnScan", nil), nil] autorelease];
+//            [alert show];
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"欧志提示" message:@"本功能未完成" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] autorelease];
             [alert show];
             
         }
@@ -167,6 +178,18 @@
         [help setPosition:CGPointMake(winSize.width / 2, winSize.height / 2)];
         [help setTag:kEatFishStartTagHelp];
         [self addChild:help];
+        
+        CCControlButton *btnBack = (CCControlButton*)[help getChildByTag:kEatFishStartTagHelpBtnBack];
+        CCLabelTTF *helpTitle = (CCLabelTTF*)[help getChildByTag:kEatFishStartTagHelpTitle];
+        CCLabelTTF *help1 = (CCLabelTTF*)[help getChildByTag:kEatFishStartTagHelp1];
+        CCLabelTTF *help2 = (CCLabelTTF*)[help getChildByTag:kEatFishStartTagHelp2];
+        CCLabelTTF *help3 = (CCLabelTTF*)[help getChildByTag:kEatFishStartTagHelp3];
+        
+        [btnBack setTitle:NSLocalizedString(@"StartScene_HelpBtnBack", nil) forState:CCControlStateNormal];
+        [helpTitle setString:NSLocalizedString(@"StartScene_HelpTitle", nil)];
+        [help1 setString:NSLocalizedString(@"StartScene_Help1", nil)];
+        [help2 setString:NSLocalizedString(@"StartScene_Help2", nil)];
+        [help3 setString:NSLocalizedString(@"StartScene_Help3", nil)];
         
     }
     

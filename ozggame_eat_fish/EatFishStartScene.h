@@ -19,8 +19,11 @@ enum EatFishStartTag
     kEatFishStartTagBtnHelp = 4,
     kEatFishStartTagHelp = 5,
     kEatFishStartTagHelpMain = 6,
-    kEatFishStartTagHelpBtnBack = 7
-    
+    kEatFishStartTagHelpBtnBack = 7,
+    kEatFishStartTagHelpTitle = 8,
+    kEatFishStartTagHelp1 = 9,
+    kEatFishStartTagHelp2 = 10,
+    kEatFishStartTagHelp3 = 11
 };
 
 @interface EatFishStartScene : EatFishBaseScene<UIAlertViewDelegate>

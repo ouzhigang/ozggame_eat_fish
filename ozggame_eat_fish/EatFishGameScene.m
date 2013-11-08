@@ -92,12 +92,12 @@
         [self addChild:nodeAI];
         
         //右上角的部分
-        CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"关卡：%i", _checkpoints] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+        CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
         [checkpointsLab setPosition:CGPointMake(winSize.width - 50, winSize.height - 12)];
         [checkpointsLab setTag:kEatFishGameSceneTagCheckpoints];
         [self addChild:checkpointsLab];
         
-        CCLabelTTF *scoreLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"分数：%i", _score] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+        CCLabelTTF *scoreLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
         [scoreLab setPosition:CGPointMake(winSize.width - 50, winSize.height - 28)];
         [scoreLab setTag:kEatFishGameSceneTagScore];
         [self addChild:scoreLab];
@@ -263,6 +263,15 @@
                 [pauseMainNode setTag:kEatFishGameSceneTagPauseMainNode];
                 [self addChild:pauseMainNode];
                 
+                CCControlButton *btnResume = (CCControlButton*)[pauseMainNode getChildByTag:kEatFishGameSceneTagPauseBtnResume];
+                CCControlButton *btnBgSound = (CCControlButton*)[pauseMainNode getChildByTag:kEatFishGameSceneTagPauseBtnBgSound];
+                CCControlButton *btnEffect = (CCControlButton*)[pauseMainNode getChildByTag:kEatFishGameSceneTagPauseBtnEffect];
+                CCControlButton *btnQuit = (CCControlButton*)[pauseMainNode getChildByTag:kEatFishGameSceneTagPauseBtnQuit];
+                [btnResume setTitle:NSLocalizedString(@"GameScene_PauseBtnResume", nil) forState:CCControlStateNormal];
+                [btnBgSound setTitle:NSLocalizedString(@"GameScene_PauseBtnBgSound", nil) forState:CCControlStateNormal];
+                [btnEffect setTitle:NSLocalizedString(@"GameScene_PauseBtnEffect", nil) forState:CCControlStateNormal];
+                [btnQuit setTitle:NSLocalizedString(@"GameScene_PauseBtnQuit", nil) forState:CCControlStateNormal];
+                
             }
             
         }
@@ -278,7 +287,7 @@
     CCNode *btn = (CCNode*)sender;
     switch (btn.tag)
     {
-        case kEatFishGameSceneTagPauseBtnReset:
+        case kEatFishGameSceneTagPauseBtnResume:
         {
             //NSLog(@"返回游戏");
             CCNode *pauseMainNode = [self getChildByTag:kEatFishGameSceneTagPauseMainNode];
@@ -306,7 +315,7 @@
         case kEatFishGameSceneTagPauseBtnQuit:
         {
             //NSLog(@"退出游戏");
-            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:APP_ALERT_TITLE message:@"是否退出游戏？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil] autorelease];
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:NSLocalizedString(@"GameScene_AlertMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil) otherButtonTitles:NSLocalizedString(@"GameScene_AlertBtnYes", nil), nil] autorelease];
             [alert setTag:kEatFishGameSceneAlertTagQuit];
             [alert show];
         }
@@ -342,7 +351,7 @@
     _score = score;
     
     CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
-    [scoreLab setString:[NSString stringWithFormat:@"分数：%i", _score]];
+    [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
 }
 
 - (void)changeCheckpoints:(NSInteger)checkpoints
@@ -350,7 +359,7 @@
     _checkpoints = checkpoints;
     
     CCLabelTTF *checkpointsLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagCheckpoints];
-    [checkpointsLab setString:[NSString stringWithFormat:@"关卡：%i", _checkpoints]];    
+    [checkpointsLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints]];
 }
 
 - (void)changePlayerLife:(NSInteger)playerLife
