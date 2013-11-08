@@ -268,9 +268,17 @@
                 CCControlButton *btnEffect = (CCControlButton*)[pauseMainNode getChildByTag:kEatFishGameSceneTagPauseBtnEffect];
                 CCControlButton *btnQuit = (CCControlButton*)[pauseMainNode getChildByTag:kEatFishGameSceneTagPauseBtnQuit];
                 [btnResume setTitle:NSLocalizedString(@"GameScene_PauseBtnResume", nil) forState:CCControlStateNormal];
-                [btnBgSound setTitle:NSLocalizedString(@"GameScene_PauseBtnBgSound", nil) forState:CCControlStateNormal];
-                [btnEffect setTitle:NSLocalizedString(@"GameScene_PauseBtnEffect", nil) forState:CCControlStateNormal];
                 [btnQuit setTitle:NSLocalizedString(@"GameScene_PauseBtnQuit", nil) forState:CCControlStateNormal];
+                
+                if([[NSUserDefaults standardUserDefaults] boolForKey:APP_CFG_BGSOUND])
+                    [btnBgSound setTitle:[NSString stringWithFormat:@"%@(OFF)", NSLocalizedString(@"GameScene_PauseBtnBgSound", nil)] forState:CCControlStateNormal];
+                else
+                    [btnBgSound setTitle:[NSString stringWithFormat:@"%@(NO)", NSLocalizedString(@"GameScene_PauseBtnBgSound", nil)] forState:CCControlStateNormal];
+                
+                if([[NSUserDefaults standardUserDefaults] boolForKey:APP_CFG_EFFECT])
+                    [btnEffect setTitle:[NSString stringWithFormat:@"%@(OFF)", NSLocalizedString(@"GameScene_PauseBtnEffect", nil)] forState:CCControlStateNormal];
+                else
+                    [btnEffect setTitle:[NSString stringWithFormat:@"%@(NO)", NSLocalizedString(@"GameScene_PauseBtnEffect", nil)] forState:CCControlStateNormal];
                 
             }
             
@@ -303,13 +311,35 @@
         case kEatFishGameSceneTagPauseBtnBgSound:
         {
             //NSLog(@"背景音乐");
-            
+            if(![[NSUserDefaults standardUserDefaults] boolForKey:APP_CFG_BGSOUND])
+            {
+                [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:1.0];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:APP_CFG_BGSOUND];
+                [((CCControlButton*)btn) setTitle:[NSString stringWithFormat:@"%@(OFF)", NSLocalizedString(@"GameScene_PauseBtnBgSound", nil)] forState:CCControlStateNormal];
+            }
+            else
+            {
+                [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:0.0];
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:APP_CFG_BGSOUND];
+                [((CCControlButton*)btn) setTitle:[NSString stringWithFormat:@"%@(NO)", NSLocalizedString(@"GameScene_PauseBtnBgSound", nil)] forState:CCControlStateNormal];
+            }
         }
             break;
         case kEatFishGameSceneTagPauseBtnEffect:
         {
             //NSLog(@"效果声音");
-            
+            if(![[NSUserDefaults standardUserDefaults] boolForKey:APP_CFG_EFFECT])
+            {
+                [[SimpleAudioEngine sharedEngine] setEffectsVolume:1.0];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:APP_CFG_EFFECT];
+                [((CCControlButton*)btn) setTitle:[NSString stringWithFormat:@"%@(OFF)", NSLocalizedString(@"GameScene_PauseBtnEffect", nil)] forState:CCControlStateNormal];
+            }
+            else
+            {
+                [[SimpleAudioEngine sharedEngine] setEffectsVolume:0.0];
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:APP_CFG_EFFECT];
+                [((CCControlButton*)btn) setTitle:[NSString stringWithFormat:@"%@(NO)", NSLocalizedString(@"GameScene_PauseBtnEffect", nil)] forState:CCControlStateNormal];
+            }
         }
             break;
         case kEatFishGameSceneTagPauseBtnQuit:
