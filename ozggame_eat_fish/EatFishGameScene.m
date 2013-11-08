@@ -467,18 +467,31 @@
         for (NSInteger j = 0; j < targetAllFishs.count; j++)
         {
             EatFishObjFishNode *targetObj = (EatFishObjFishNode*)[targetAllFishs objectAtIndex:j];
-            
-            //AI鱼跟AI鱼的处理
-            if(CGRectIntersectsRect(srcObj.collisionArea, [targetObj boundingBox]))
+            if(CGRectIntersectsRect([srcObj boundingBox], [targetObj boundingBox]))
             {
-                if([srcObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [srcObj.typeName isEqualToString:APP_OBJ_TYPE_FISH])
+                if([srcObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [targetObj.typeName isEqualToString:APP_OBJ_TYPE_FISH])
                 {
-                    //NSLog(@"AI鱼跟AI鱼碰撞了");
-                    //大鱼吃小鱼
-                    if(((EatFishObjEnemyFishNode*)srcObj).status > ((EatFishObjEnemyFishNode*)targetObj).status)
+                    if(CGRectIntersectsRect(srcObj.collisionArea, [targetObj boundingBox]))
                     {
-                        [targetObj stopAllActions];
-                        [targetObj removeFromParentAndCleanup:YES];
+                        //AI鱼跟AI鱼的处理
+                        //NSLog(@"AI鱼跟AI鱼碰撞了");
+                        //大鱼吃小鱼
+                        if(((EatFishObjEnemyFishNode*)srcObj).status >= kEatFishObjEnemyFishNodeStatus3 && ((EatFishObjEnemyFishNode*)srcObj).status > ((EatFishObjEnemyFishNode*)targetObj).status)
+                        {
+                            [((EatFishObjEnemyFishNode*)srcObj) cump];
+                            [targetObj stopAllActions];
+                            [targetObj removeFromParentAndCleanup:YES];
+                        }
+                    }
+                    
+                }
+                else if([srcObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [targetObj.typeName isEqualToString:APP_OBJ_TYPE_JELLYFISH])
+                {
+                    if(((EatFishObjEnemyFishNode*)srcObj).status < kEatFishObjEnemyFishNodeStatus5)
+                    {
+                        //AI鱼跟水母的处理
+                        NSLog(@"AI鱼跟水母碰撞了");
+                        
                     }
                 }
             }
@@ -551,6 +564,10 @@
     [nodeAI addChild:_enemyFishNode];
     
     ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:20.0];
+    
+    _enemyFishNode.moveTime = moveTime;
+    _enemyFishNode.moveStartPoint = startPoint;
+    _enemyFishNode.moveEndPoint = endPoint;
     [_enemyFishNode runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:moveTime position:endPoint] two:[CCCallFuncN actionWithTarget:self selector:@selector(enemyFishMoveEnd:)]]];
 }
 

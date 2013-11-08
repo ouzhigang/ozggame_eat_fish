@@ -11,7 +11,8 @@
 
 enum EatFishObjFishNodeTag
 {
-    kEatFishObjFishNodeTagMainSprite = 0
+    kEatFishObjFishNodeTagMainSprite = 0,
+    kEatFishObjFishNodeTagCump = 10
 };
 
 enum EatFishObjFishNodeOrientation
@@ -22,6 +23,8 @@ enum EatFishObjFishNodeOrientation
 
 @interface EatFishObjFishNode : CCNode
 
+@property (nonatomic, assign)ccTime moveTimeElapsed; //已经经过了的移动时间
+@property (nonatomic, assign)ccTime moveTime; //移动时间
 @property (nonatomic, assign)CGRect collisionArea; //碰撞区域
 @property (nonatomic, assign)enum EatFishObjFishNodeOrientation orientation; //朝向
 @property (nonatomic, assign)NSString* typeName;
@@ -31,5 +34,8 @@ enum EatFishObjFishNodeOrientation
 
 - (void)orientationLeft; //转向左边
 - (void)orientationRight; //转向右边
+
+- (void)cump; //吃了一条比自己小的鱼，（水母类不会调用这个方法）
+- (void)paralysis; //麻痹，碰到了水母后执行，鲨鱼不调用这个方法
 
 @end

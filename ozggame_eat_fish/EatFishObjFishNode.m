@@ -10,10 +10,16 @@
 
 @interface EatFishObjFishNode()
 
+- (void)cumpAutoHide:(id)sender; //cump的精灵自动消失
+- (void)paralysisEnd:(id)sender; //麻痹完毕恢复正常后执行
+
 @end
 
 @implementation EatFishObjFishNode
 
+@synthesize moveTimeElapsed;
+@synthesize moveTime;
+@synthesize collisionArea;
 @synthesize orientation;
 @synthesize typeName;
 
@@ -65,6 +71,10 @@
         [fishObj removeFromParentAndCleanup:YES];
     }
     
+    CCSprite *chumSprite = (CCSprite*)[self getChildByTag:kEatFishObjFishNodeTagCump];
+    if(chumSprite)
+        [chumSprite removeFromParentAndCleanup:YES];
+    
     //NSLog(@"EatFishObjFishNode dealloc");
     [super dealloc];
 }
@@ -85,9 +95,61 @@
     [fishObj setFlipX:YES];
 }
 
+- (void)cump
+{
+    CCSprite *chumSprite = (CCSprite*)[self getChildByTag:kEatFishObjFishNodeTagCump];
+    if(chumSprite)
+    {
+        [chumSprite stopAllActions];
+        [chumSprite removeFromParentAndCleanup:YES];
+    }
+    
+    //随机的cump精灵
+    NSArray *cumpList = [NSArray arrayWithObjects:@"cump1.png", @"cump2.png", @"cump3.png", @"cump4.png", @"cump5.png", nil];
+    
+    chumSprite = [CCSprite spriteWithSpriteFrameName:[cumpList objectAtIndex:(NSInteger)(arc4random() % cumpList.count)]];
+    
+    //定义左边或右边的位置
+    if(self.orientation == kEatFishObjFishNodeOrientationLeft)
+        [chumSprite setPosition:CGPointMake(-chumSprite.contentSize.width / 2, self.contentSize.height / 2)];
+    else
+        [chumSprite setPosition:CGPointMake(self.contentSize.width + (chumSprite.contentSize.width / 2), self.contentSize.height / 2)];
+    
+    [chumSprite setTag:kEatFishObjFishNodeTagCump];
+    [self addChild:chumSprite];
+    
+    [chumSprite runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.2] two:[CCCallFuncN actionWithTarget:self selector:@selector(cumpAutoHide:)]]];
+}
+
+- (void)cumpAutoHide:(id)sender
+{
+    CCSprite *chumSprite = (CCSprite*)sender;
+    [chumSprite stopAllActions];
+    [chumSprite removeFromParentAndCleanup:YES];
+}
+
+- (void)paralysis
+{    
+    [self stopAllActions];
+    
+    CCMoveBy *act1 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(-5, 0)];
+    CCMoveBy *act2 = [CCMoveBy actionWithDuration:0.02 position:CGPointMake(10, 0)];
+    CCActionInterval *act3 = [act2 reverse];
+    CCMoveBy *act4 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(5, 0)];
+    
+    [self runAction:[CCSequence actions:act1, act2, act3, act4, [CCDelayTime actionWithDuration:5], [CCCallFuncN actionWithTarget:self selector:@selector(paralysisEnd:)], nil]];
+}
+
+- (void)paralysisEnd:(id)sender
+{
+
+}
+
 - (void)update:(ccTime)delta
 {
     //NSLog(@"刷新碰撞区域");
+    
+    self.moveTimeElapsed += delta;
     
     CGPoint objZeroPoint = CGPointMake(self.position.x - (self.contentSize.width / 2), self.position.y - self.contentSize.height / 2);
     

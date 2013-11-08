@@ -23,9 +23,7 @@ enum EatFishObjEnemyFishNodeStatus
 
 @interface EatFishObjEnemyFishNode : EatFishObjFishNode
 
-@property (nonatomic, assign)BOOL isMoving;
-@property (nonatomic, assign)ccTime moveTimeElapsed; //已经经过了的移动时间
-@property (nonatomic, assign)ccTime moveTime; //移动时间
+@property (nonatomic, assign)BOOL isMoving; //是否正在移动
 @property (nonatomic, assign)CGPoint moveStartPoint; //移动的开始点
 @property (nonatomic, assign)CGPoint moveEndPoint; //移动的结束点
 @property (nonatomic, assign)enum EatFishObjEnemyFishNodeStatus status; //鱼的大小级别
