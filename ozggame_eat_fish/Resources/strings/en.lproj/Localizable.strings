@@ -29,3 +29,8 @@
 "GameScene_AlertMessage" = "Are you sure?";
 "GameScene_AlertBtnYes" = "Yes";
 "GameScene_AlertBtnNo" = "No";
+
+"GameScene_GameOverLab1" = "Game Over";
+"GameScene_GameOverLab2" = "Thank you for your play";
+"GameScene_GameOverBtnQuit" = "Quit";
+"GameScene_GameOverBtnRestart" = "Restart";

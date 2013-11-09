@@ -381,6 +381,44 @@
             [alert show];
         }
             break;
+        case kEatFishGameSceneTagGameOverMainNodeBtnQuit:
+        {
+            //NSLog(@"退出游戏");
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:NSLocalizedString(@"GameScene_AlertMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil) otherButtonTitles:NSLocalizedString(@"GameScene_AlertBtnYes", nil), nil] autorelease];
+            [alert setTag:kEatFishGameSceneAlertTagQuit];
+            [alert show];
+        }
+            break;
+        case kEatFishGameSceneTagGameOverMainNodeBtnRestart:
+        {
+            //NSLog(@"重新开始");
+            
+            //游戏的初始化数据
+            _score = 0;
+            _checkpoints = 1;
+            _playerLife = APP_PLAYER_LIFE;
+            
+            CCLabelTTF *checkpointsLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagCheckpoints];
+            [checkpointsLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints]];
+            
+            CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
+            [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
+            
+            CCLabelTTF *fishLifeLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagFishLifeLab];
+            [fishLifeLab setString:[NSString stringWithFormat:@"%i", _playerLife]];
+            
+            CCNode *gameOver = [self getChildByTag:kEatFishGameSceneTagGameOverMainNode];
+            [gameOver removeFromParentAndCleanup:YES];
+            
+            //玩家控制的鱼
+            EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+            [player setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, 400)];
+            [player setTag:kEatFishGameSceneTagPlayer];
+            [self addChild:player];
+            
+            [self gameStart];
+        }
+            break;
     }
 }
 
@@ -575,19 +613,43 @@
                         {
                             //被比自己大的鱼吃了
                             if(!player.statusIsInvincible)
-                            {
-                                [[SimpleAudioEngine sharedEngine] playEffect:@"playbyeat.mp3"];
+                            {                                
                                 [((EatFishObjEnemyFishNode*)targetObj) cump];
                                 [player stopAllActions];
                                 [player removeFromParentAndCleanup:YES];
                                 
                                 if(_playerLife == 0)
                                 {
-                                    //game over
+                                    [self unscheduleUpdate];
                                     
+                                    //没有了生命值就game over
+                                    [[SimpleAudioEngine sharedEngine] playEffect:@"complete.mp3"];
+                                    
+                                    [self setTouchEnabled:NO];
+                                    CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
+                                    [menu setEnabled:NO];
+                                    
+                                    CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
+                                    [nodeAI removeAllChildrenWithCleanup:YES];
+                                    
+                                    CCNode *gameOver = [CCBReader nodeGraphFromFile:@"scene_game_over.ccbi" owner:self];
+                                    [gameOver setTag:kEatFishGameSceneTagGameOverMainNode];
+                                    [gameOver setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, [[CCDirector sharedDirector] winSize].height / 2)];
+                                    [self addChild:gameOver];
+                                    
+                                    CCLabelTTF *gameOverLab1 = (CCLabelTTF*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeLab1];
+                                    CCLabelTTF *gameOverLab2 = (CCLabelTTF*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeLab2];
+                                    CCControlButton *gameOverBtnQuit = (CCControlButton*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeBtnQuit];
+                                    CCControlButton *gameOverBtnRestart = (CCControlButton*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeBtnRestart];
+                                    [gameOverLab1 setString:NSLocalizedString(@"GameScene_GameOverLab1", nil)];
+                                    [gameOverLab2 setString:NSLocalizedString(@"GameScene_GameOverLab2", nil)];
+                                    [gameOverBtnQuit setTitle:NSLocalizedString(@"GameScene_GameOverBtnQuit", nil) forState:CCControlStateNormal];
+                                    [gameOverBtnRestart setTitle:NSLocalizedString(@"GameScene_GameOverBtnRestart", nil) forState:CCControlStateNormal];
                                 }
                                 else
                                 {
+                                    //生命值减1
+                                    [[SimpleAudioEngine sharedEngine] playEffect:@"playbyeat.mp3"];
                                     [self changePlayerLife:_playerLife - 1];
                                     [self scheduleOnce:@selector(gameRestart:) delay:2.5]; //等待一定时间后继续游戏
                                     

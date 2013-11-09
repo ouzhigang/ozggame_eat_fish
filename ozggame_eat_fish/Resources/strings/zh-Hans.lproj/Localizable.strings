@@ -29,3 +29,8 @@
 "GameScene_AlertMessage" = "是否退出游戏？";
 "GameScene_AlertBtnYes" = "是";
 "GameScene_AlertBtnNo" = "否";
+
+"GameScene_GameOverLab1" = "游戏结束";
+"GameScene_GameOverLab2" = "如有问题请联系作者";
+"GameScene_GameOverBtnQuit" = "退出游戏";
+"GameScene_GameOverBtnRestart" = "重新开始";

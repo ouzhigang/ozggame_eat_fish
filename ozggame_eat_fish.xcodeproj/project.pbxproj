@@ -214,6 +214,7 @@
 		899F88371825314C00E69784 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 899F88341825314C00E69784 /* Default-Portrait@2x~ipad.png */; };
 		899F88381825314C00E69784 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 899F88351825314C00E69784 /* Default-Portrait~ipad.png */; };
 		89C64F72182678A10010CC37 /* blister.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89C64F71182678A10010CC37 /* blister.plist */; };
+		89FBA578182DE25B00444EAC /* scene_game_over.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 89FBA577182DE25B00444EAC /* scene_game_over.ccbi */; };
 		9E2DC72F1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DC72D1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi */; };
 		9E2DC7301828A0B700B6CEB0 /* scene_game_pausemenu.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DC72E1828A0B700B6CEB0 /* scene_game_pausemenu.ccbi */; };
 		9E3364521829E6830078AE2F /* EatFishObjJellyfishNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E3364511829E6830078AE2F /* EatFishObjJellyfishNode.m */; };
@@ -614,16 +615,17 @@
 		899F88341825314C00E69784 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "Resources/Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		899F88351825314C00E69784 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		89C64F71182678A10010CC37 /* blister.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = blister.plist; sourceTree = "<group>"; };
+		89FBA577182DE25B00444EAC /* scene_game_over.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = scene_game_over.ccbi; sourceTree = "<group>"; };
 		9E2DC72D1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = "scene_game_pausemenu-ip5.ccbi"; sourceTree = "<group>"; };
 		9E2DC72E1828A0B700B6CEB0 /* scene_game_pausemenu.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = scene_game_pausemenu.ccbi; sourceTree = "<group>"; };
 		9E3364501829E6830078AE2F /* EatFishObjJellyfishNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EatFishObjJellyfishNode.h; sourceTree = "<group>"; };
 		9E3364511829E6830078AE2F /* EatFishObjJellyfishNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EatFishObjJellyfishNode.m; sourceTree = "<group>"; };
-		9E6A2EE7182C805E009AD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		9E6A2EEA182C8062009AD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9E6A2EEC182C80AE009AD132 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		9E6A2EED182C80AE009AD132 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		9E6A2EEE182C80B2009AD132 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		9E6A2EEF182C80B2009AD132 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		9E6A2EE7182C805E009AD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9E6A2EEA182C8062009AD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9E6A2EEC182C80AE009AD132 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		9E6A2EED182C80AE009AD132 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		9E6A2EEE182C80B2009AD132 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		9E6A2EEF182C80B2009AD132 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9E739957182738A700A251CE /* OzgCCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzgCCUtility.h; sourceTree = "<group>"; };
 		9E739958182738A700A251CE /* OzgCCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzgCCUtility.m; sourceTree = "<group>"; };
 		9E73995A18273C5000A251CE /* scene_start_help-ip5.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = "scene_start_help-ip5.ccbi"; sourceTree = "<group>"; };
@@ -1314,6 +1316,7 @@
 		897617B518253AAB00C0B854 /* ccb */ = {
 			isa = PBXGroup;
 			children = (
+				89FBA577182DE25B00444EAC /* scene_game_over.ccbi */,
 				9E2DC72D1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi */,
 				9E2DC72E1828A0B700B6CEB0 /* scene_game_pausemenu.ccbi */,
 				9E73995A18273C5000A251CE /* scene_start_help-ip5.ccbi */,
@@ -1429,6 +1432,7 @@
 				89C64F72182678A10010CC37 /* blister.plist in Resources */,
 				8975B86418252FB5006A957F /* Default@2x.png in Resources */,
 				8975B86E18252FB5006A957F /* Icon-Small.png in Resources */,
+				89FBA578182DE25B00444EAC /* scene_game_over.ccbi in Resources */,
 				8975B86A18252FB5006A957F /* Icon-72.png in Resources */,
 				893A1BA5182620D100415C0B /* Fishall.png in Resources */,
 				891ED53B1825F8D40062A44C /* scene_start_help.ccbi in Resources */,
