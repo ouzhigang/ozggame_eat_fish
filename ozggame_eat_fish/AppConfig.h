@@ -31,4 +31,16 @@
 #define APP_OBJ_TYPE_FISH @"fish"
 #define APP_OBJ_TYPE_JELLYFISH @"jellyfish"
 
+//吃了一条鱼所加的分数
+#define APP_SCORE_FISH1 1
+#define APP_SCORE_FISH2 1
+#define APP_SCORE_FISH3 2
+#define APP_SCORE_FISH4 3
+
+//最高分数
+#define APP_MAX_SCORE 99999
+
+//最高关卡（CP即checkpoints）
+#define APP_MAX_CP 99
+
 #endif

@@ -6,8 +6,11 @@
 //  Copyright (c) 2013年 欧志刚. All rights reserved.
 //
 
+#import "OzgCCUtility.h"
+#import "SimpleAudioEngine.h"
 #import "EatFishObjFishNode.h"
 #import "EatFishObjFishData.h"
+#import "EatFishObjEnemyFishNode.h"
 #import "AppConfig.h"
 
 enum EatFishObjPlayerNodeTag
@@ -35,5 +38,7 @@ enum EatFishObjPlayerNodeStatus
 - (id)initWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
 
 - (void)changeStatus:(enum EatFishObjPlayerNodeStatus)status;
+
+- (void)cump:(enum EatFishObjEnemyFishNodeStatus)_status; //吃掉一条鱼
 
 @end

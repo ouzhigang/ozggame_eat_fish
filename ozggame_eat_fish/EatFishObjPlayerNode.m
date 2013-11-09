@@ -261,4 +261,43 @@
     [newFishObj runAction:[CCRepeatForever actionWithAction:anim]];
 }
 
+- (void)cump:(enum EatFishObjEnemyFishNodeStatus)_status
+{
+    if([OzgCCUtility randomRate:0.2])
+        [[SimpleAudioEngine sharedEngine] playEffect:@"eatfish2.mp3"];
+    else
+        [[SimpleAudioEngine sharedEngine] playEffect:@"eatfish1.mp3"];
+    
+    CCLabelTTF *scoreEffect = nil;    
+    switch (_status)
+    {
+        case kEatFishObjEnemyFishNodeStatus2:
+            scoreEffect = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%i", APP_SCORE_FISH2] fontName:@"Arial-BoldMT" fontSize:12 dimensions:CGSizeMake(self.contentSize.width, 15) hAlignment:kCCTextAlignmentCenter];
+            break;
+        case kEatFishObjEnemyFishNodeStatus3:
+            scoreEffect = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%i", APP_SCORE_FISH3] fontName:@"Arial-BoldMT" fontSize:12 dimensions:CGSizeMake(self.contentSize.width, 15) hAlignment:kCCTextAlignmentCenter];
+            break;
+        case kEatFishObjEnemyFishNodeStatus4:
+            scoreEffect = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%i", APP_SCORE_FISH4] fontName:@"Arial-BoldMT" fontSize:12 dimensions:CGSizeMake(self.contentSize.width, 15) hAlignment:kCCTextAlignmentCenter];
+            break;
+        default:
+            scoreEffect = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%i", APP_SCORE_FISH1] fontName:@"Arial-BoldMT" fontSize:12 dimensions:CGSizeMake(self.contentSize.width, 15) hAlignment:kCCTextAlignmentCenter];
+            break;
+    }
+    
+    [scoreEffect setColor:ccc3(255, 255, 0)];
+    [scoreEffect setPosition:CGPointMake(self.contentSize.width / 2, self.contentSize.height)];
+    [self addChild:scoreEffect];
+    [scoreEffect runAction:[CCSequence actionOne:[CCMoveBy actionWithDuration:1.0 position:CGPointMake(0, 20)] two:[CCCallFuncN actionWithTarget:self selector:@selector(scoreEffectMoveEnd:)]]];
+    
+    [super cump];
+}
+
+- (void)scoreEffectMoveEnd:(id)sender
+{
+    CCLabelTTF *scoreEffect = (CCLabelTTF*)sender;
+    [scoreEffect removeFromParentAndCleanup:YES];
+    
+}
+
 @end

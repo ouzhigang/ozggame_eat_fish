@@ -21,10 +21,13 @@
 - (void)gameStart; //开始游戏
 - (void)gameStartCallback; //gameStart的回调
 
+- (void)gameRestart:(ccTime)delta; //挂了之后重新开始游戏
+- (void)gameRestartCallback; //gameRestartCallback的回调
+
 - (void)onMenuTouched:(id)sender;
 - (void)onButtonTouched:(id)sender;
 
-- (void)changeScore:(NSInteger)score; //分数发生改变时调用
+- (void)changeScore:(enum EatFishObjEnemyFishNodeStatus)enemyFishNodeStatus; //分数改变，吃掉鱼时调用
 - (void)changeCheckpoints:(NSInteger)checkpoints; //关卡发生改变时调用
 - (void)changePlayerLife:(NSInteger)playerLife; //player生命值发生改变时调用
 
@@ -192,6 +195,32 @@
     [self scheduleUpdate];
 }
 
+- (void)gameRestart:(ccTime)delta
+{
+    [[SimpleAudioEngine sharedEngine] playEffect:@"fishstart.mp3"];
+    
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    
+    EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+    [player setPosition:CGPointMake(winSize.width / 2, 400)];
+    [player setTag:kEatFishGameSceneTagPlayer];
+    [self addChild:player];
+    
+    //鱼掉下来
+    [player runAction:[CCSequence actionOne:[CCMoveBy actionWithDuration:1.0 position:CGPointMake(0, -200)] two:[CCCallFunc actionWithTarget:self selector:@selector(gameRestartCallback)]]];
+    
+    [self setTouchEnabled:NO];
+}
+
+- (void)gameRestartCallback
+{
+    [self setTouchEnabled:YES];
+    
+    CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
+    [menu setEnabled:YES];
+    
+}
+
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     //UITouch *touch = [touches anyObject];
@@ -205,29 +234,31 @@
     CGPoint point = [[CCDirector sharedDirector] convertToGL:[touch locationInView:touch.view]];
     
     EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
-    
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    CGRect moveRect = CGRectMake(player.contentSize.width / 2, player.contentSize.height / 2, winSize.width - (player.contentSize.width / 2), winSize.height - (player.contentSize.height / 2));
-    
-    CGPoint endPoint = [[CCDirector sharedDirector] convertToGL:[touch previousLocationInView:touch.view]];
-    
-    CGPoint offSet = ccpSub(point, endPoint);
-    CGPoint toPoint = ccpAdd(player.position, offSet);
-    
-    CGFloat toX = player.position.x;
-    CGFloat toY = player.position.y;
-    
-    //如果toPoint的x存在moveRect的宽度范围里面则x为可移动，y的情况一样
-    if(toPoint.x >= moveRect.origin.x && toPoint.x <= moveRect.size.width)
-        toX = toPoint.x;
-    if(toPoint.y >= moveRect.origin.y && toPoint.y <= moveRect.size.height)
-        toY = toPoint.y;
-    
-    [player setPosition:CGPointMake(toX, toY)];
-    if(offSet.x > 0)
-        [player orientationRight]; //向右移动则转向右边
-    else if(offSet.x < 0)
-        [player orientationLeft]; //向左移动则转向左边
+    if(player)
+    {
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
+        CGRect moveRect = CGRectMake(player.contentSize.width / 2, player.contentSize.height / 2, winSize.width - (player.contentSize.width / 2), winSize.height - (player.contentSize.height / 2));
+        
+        CGPoint endPoint = [[CCDirector sharedDirector] convertToGL:[touch previousLocationInView:touch.view]];
+        
+        CGPoint offSet = ccpSub(point, endPoint);
+        CGPoint toPoint = ccpAdd(player.position, offSet);
+        
+        CGFloat toX = player.position.x;
+        CGFloat toY = player.position.y;
+        
+        //如果toPoint的x存在moveRect的宽度范围里面则x为可移动，y的情况一样
+        if(toPoint.x >= moveRect.origin.x && toPoint.x <= moveRect.size.width)
+            toX = toPoint.x;
+        if(toPoint.y >= moveRect.origin.y && toPoint.y <= moveRect.size.height)
+            toY = toPoint.y;
+        
+        [player setPosition:CGPointMake(toX, toY)];
+        if(offSet.x > 0)
+            [player orientationRight]; //向右移动则转向右边
+        else if(offSet.x < 0)
+            [player orientationLeft]; //向左移动则转向左边
+    }
     
 }
 
@@ -376,9 +407,23 @@
     }
 }
 
-- (void)changeScore:(NSInteger)score
+- (void)changeScore:(enum EatFishObjEnemyFishNodeStatus)enemyFishNodeStatus
 {
-    _score = score;
+    switch (enemyFishNodeStatus)
+    {
+        case kEatFishObjEnemyFishNodeStatus2:
+            _score += APP_SCORE_FISH2;
+            break;
+        case kEatFishObjEnemyFishNodeStatus3:
+            _score += APP_SCORE_FISH3;
+            break;
+        case kEatFishObjEnemyFishNodeStatus4:
+            _score += APP_SCORE_FISH4;
+            break;
+        default:
+            _score += APP_SCORE_FISH1;
+            break;
+    }
     
     CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
     [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
@@ -409,7 +454,7 @@
     CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
     
     //player
-    //EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
+    EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
     
     //水母
     if([OzgCCUtility randomRate:APP_AI_JELLYFISH])
@@ -483,22 +528,87 @@
         [self enemyFishEmergence:enemyFishNode];
     }
     
-    //碰撞
-//    if(!player.statusIsInvincible)
-//    {
+    //以下是碰撞
+
+    NSArray *srcAllFishs = [[nodeAI children] getNSArray]; //碰撞源对象
+    NSArray *targetAllFishs = [srcAllFishs copy]; //碰撞目标对象
+
+    //player和AI鱼水母之间的检测 ，检测只有在可操作的时候有效
+    if([self isTouchEnabled])
+    {
+        for (NSInteger i = 0; i < targetAllFishs.count; i++)
+        {
+            EatFishObjFishNode *targetObj = (EatFishObjFishNode*)[targetAllFishs objectAtIndex:i];
+            
+            if(CGRectIntersectsRect(player.collisionArea, [targetObj boundingBox]) && [targetObj.typeName isEqualToString:APP_OBJ_TYPE_FISH])
+            {
+                //NSLog(@"player与AI鱼碰撞了");
+                
+                switch (player.status)
+                {
+                    case kEatFishObjPlayerNodeStatusMiddle:
+                    {
+                        //中的状态
+                        
+                    }
+                        break;
+                    case kEatFishObjPlayerNodeStatusBig:
+                    {
+                        //大的状态
+                        
+                    }
+                        break;
+                    default:
+                    {
+                        //小的状态
+                        if(((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus1 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus2)
+                        {
+                            //吃了比自己小的鱼
+                            [player cump:((EatFishObjEnemyFishNode*)targetObj).status];
+                            [targetObj stopAllActions];
+                            [targetObj removeFromParentAndCleanup:YES];
+                            
+                            //分数
+                            [self changeScore:((EatFishObjEnemyFishNode*)targetObj).status];
+                        }
+                        else
+                        {
+                            //被比自己大的鱼吃了
+                            if(!player.statusIsInvincible)
+                            {
+                                [[SimpleAudioEngine sharedEngine] playEffect:@"playbyeat.mp3"];
+                                [((EatFishObjEnemyFishNode*)targetObj) cump];
+                                [player stopAllActions];
+                                [player removeFromParentAndCleanup:YES];
+                                
+                                if(_playerLife == 0)
+                                {
+                                    //game over
+                                    
+                                }
+                                else
+                                {
+                                    [self changePlayerLife:_playerLife - 1];
+                                    [self scheduleOnce:@selector(gameRestart:) delay:2.5]; //等待一定时间后继续游戏
+                                    
+                                }
+                            }
+                        }
+                        
+                    }
+                        break;
+                }
+                
+            }
+            else if(CGRectIntersectsRect([player boundingBox], [targetObj boundingBox]) && [targetObj.typeName isEqualToString:APP_OBJ_TYPE_JELLYFISH])
+            {
+                NSLog(@"player与水母碰撞了");
+                
+            }
+        }
+    }
     
-//        EatFishObjJellyfishNode *srcObj = NULL;
-//        CCARRAY_FOREACH(allFishs, srcObj)
-//        {
-//            if(CGRectIntersectsRect([srcObj boundingBox], [player boundingBox]))
-//            {
-//                NSLog(@"player跟水母碰撞了");
-//            }
-//        }
-//    }
-    
-    NSArray *srcAllFishs = [[nodeAI children] getNSArray];
-    NSArray *targetAllFishs = [srcAllFishs copy];
+    //AI鱼和水母之间的检测
     for (NSInteger i = 0; i < srcAllFishs.count; i++)
     {
         EatFishObjFishNode *srcObj = (EatFishObjFishNode*)[srcAllFishs objectAtIndex:i];
