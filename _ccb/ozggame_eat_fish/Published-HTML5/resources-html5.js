@@ -1,7 +1,8 @@
 var ccb_resources = [
-    {type:'image', src:"btn1_up.png"},
+    {type:'ccbi', src:"scene_start_help.ccbi"},
     {type:'ccbi', src:"scene_start_help-ip5.ccbi"},
     {type:'image', src:"bg1-ip5.png"},
+    {type:'image', src:"btn1_up.png"},
     {type:'image', src:"bg3-ip5.png"},
     {type:'image', src:"bg1.png"},
     {type:'image', src:"btn2_up.png"},
@@ -19,6 +20,6 @@ var ccb_resources = [
     {type:'image', src:"btn2_dw.png"},
     {type:'image', src:"Fishall.png"},
     {type:'image', src:"Fishtales.png"},
+    {type:'ccbi', src:"scene_game_clear.ccbi"},
     {type:'ccbi', src:"scene_game_over.ccbi"},
-    {type:'ccbi', src:"scene_start_help.ccbi"},
 ];

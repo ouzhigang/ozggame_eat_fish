@@ -34,3 +34,7 @@
 "GameScene_GameOverLab2" = "Thank you for your play";
 "GameScene_GameOverBtnQuit" = "Quit";
 "GameScene_GameOverBtnRestart" = "Restart";
+
+"GameScene_GameClearLab1" = "Clear";
+"GameScene_GameClearBtnQuit" = "Quit";
+"GameScene_GameClearBtnNext" = "Next";

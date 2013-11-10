@@ -16,8 +16,13 @@
     NSInteger _checkpoints; //关卡，最大为99
     NSInteger _playerLife; //player的生命值，最大为99
     
-    NSInteger _eatFish; //吃了多少条鱼，用这个值来判断player的成长，小鱼+1，中鱼+2，大鱼+3
+    NSInteger _eatFish; //吃了多少条鱼，用这个值来判断player的成长，小鱼+1，中鱼+2，大鱼+3（死命后此值不会清0，过关后清0）
+    NSInteger _eatFishTotal; //这一关吃了的鱼的总数，逻辑跟_eatFish一样，功能是用来判断是否过关，但这个值只有过关时和重新开始时才清0
     
+    //这三个值用于过关时的统计，过关后清0
+    NSInteger _eatFishTotalStatus1And2;
+    NSInteger _eatFishTotalStatus3;
+    NSInteger _eatFishTotalStatus4;
 }
 
 - (void)gameStart; //开始游戏
@@ -59,6 +64,11 @@
         _playerLife = APP_PLAYER_LIFE;
         
         _eatFish = 0;
+        _eatFishTotal = 0;
+        
+        _eatFishTotalStatus1And2 = 0;
+        _eatFishTotalStatus3 = 0;
+        _eatFishTotalStatus4 = 0;
         
         //随机背景
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Fishall.plist"];
@@ -126,6 +136,19 @@
         [progressBg setTag:kEatFishGameSceneTagProgressBg];
         [self addChild:progressBg];
         
+        //关卡进度条
+        CCSprite *progress = [CCSprite spriteWithFile:@"progressk.png"];
+        [progress setPosition:CGPointMake(40, 297)];
+        [progress setTag:kEatFishGameSceneTagProgress];
+        [progress setAnchorPoint:CGPointMake(0.0, 0.5)];
+        [progress setPosition:CGPointMake(progress.position.x - (progress.contentSize.width / 2), progress.position.y)];
+        [progress setScaleX:0];
+        [self addChild:progress];
+        //test
+        //[progress setScaleX:0.29];
+        //[progress setScaleX:0.61];
+        //[progress setScaleX:1];
+        
         CCSprite *fishLife = [CCSprite spriteWithSpriteFrameName:@"fishlife.png"];
         [fishLife setPosition:CGPointMake(35, 275)];
         [fishLife setTag:kEatFishGameSceneTagFishLife];
@@ -163,7 +186,8 @@
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"particleTexture.png"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pause_dw.png"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pause_up.png"];
-    //[[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
+    [[CCTextureCache sharedTextureCache] removeTextureForKey:@"progressk.png"];
+    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
     //NSLog(@"EatFishGameScene dealloc");
     [super dealloc];
 }
@@ -399,6 +423,14 @@
             [alert show];
         }
             break;
+        case kEatFishGameSceneTagGameClearMainNodeBtnQuit:
+        {
+            //NSLog(@"退出游戏");
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:NSLocalizedString(@"GameScene_AlertMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil) otherButtonTitles:NSLocalizedString(@"GameScene_AlertBtnYes", nil), nil] autorelease];
+            [alert setTag:kEatFishGameSceneAlertTagQuit];
+            [alert show];
+        }
+            break;
         case kEatFishGameSceneTagGameOverMainNodeBtnRestart:
         {
             //NSLog(@"重新开始");
@@ -409,18 +441,52 @@
             _playerLife = APP_PLAYER_LIFE;
             
             _eatFish = 0;
+            _eatFishTotal = 0;
             
-            CCLabelTTF *checkpointsLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagCheckpoints];
-            [checkpointsLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints]];
+            _eatFishTotalStatus1And2 = 0;
+            _eatFishTotalStatus3 = 0;
+            _eatFishTotalStatus4 = 0;
+            
+            [self changeCheckpoints:_checkpoints];
+            [self changePlayerLife:_playerLife];
             
             CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
             [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
             
-            CCLabelTTF *fishLifeLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagFishLifeLab];
-            [fishLifeLab setString:[NSString stringWithFormat:@"%i", _playerLife]];
-            
             CCNode *gameOver = [self getChildByTag:kEatFishGameSceneTagGameOverMainNode];
             [gameOver removeFromParentAndCleanup:YES];
+            
+            //玩家控制的鱼
+            CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
+            
+            EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+            [player setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, 400)];
+            [player setTag:kEatFishGameSceneTagPlayer];
+            [nodeFish addChild:player];
+            
+            [self gameStart];
+        }
+            break;
+        case kEatFishGameSceneTagGameClearMainNodeBtnNext:
+        {
+            //NSLog(@"下一关");
+            _checkpoints += 1;
+            if(_checkpoints > APP_MAX_CP)
+                _checkpoints = APP_MAX_CP;
+            [self changeCheckpoints:_checkpoints];
+            
+            _eatFish = 0;
+            _eatFishTotal = 0;
+            
+            _eatFishTotalStatus1And2 = 0;
+            _eatFishTotalStatus3 = 0;
+            _eatFishTotalStatus4 = 0;
+            
+            CCSprite *progress = (CCSprite*)[self getChildByTag:kEatFishGameSceneTagProgress];
+            [progress setScaleX:0];
+            
+            CCNode *gameClear = [self getChildByTag:kEatFishGameSceneTagGameClearMainNode];
+            [gameClear removeFromParentAndCleanup:YES];
             
             //玩家控制的鱼
             CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
@@ -467,21 +533,29 @@
             _score += APP_SCORE_FISH2;
             
             _eatFish += 1;
+            _eatFishTotal += 1;
+            _eatFishTotalStatus1And2 += 1;
             break;
         case kEatFishObjEnemyFishNodeStatus3:
             _score += APP_SCORE_FISH3;
             
             _eatFish += 2;
+            _eatFishTotal += 2;
+            _eatFishTotalStatus3 += 1;
             break;
         case kEatFishObjEnemyFishNodeStatus4:
             _score += APP_SCORE_FISH4;
             
             _eatFish += 3;
+            _eatFishTotal +=3;
+            _eatFishTotalStatus4 += 1;
             break;
         default:
             _score += APP_SCORE_FISH1;
             
             _eatFish += 1;
+            _eatFishTotal += 1;
+            _eatFishTotalStatus1And2 += 1;
             break;
     }
     
@@ -490,6 +564,8 @@
     
     if(_eatFish > APP_MAX_SCORE)
         _eatFish = APP_MAX_SCORE;
+    if(_eatFishTotal > APP_MAX_SCORE)
+        _eatFishTotal = APP_MAX_SCORE;
     
     CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
     [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
@@ -684,6 +760,47 @@
                             
                             //分数
                             [self changeScore:((EatFishObjEnemyFishNode*)targetObj).status];
+                            
+                            //关卡进度条
+                            CGFloat cpProgress = (CGFloat)_eatFishTotal / (CGFloat)APP_CP_CLEAR;
+                            CCSprite *progress = (CCSprite*)[self getChildByTag:kEatFishGameSceneTagProgress];
+                            [progress setScaleX:cpProgress];
+                            
+                            if(cpProgress >= 1)
+                            {
+                                //过关
+                                [self unscheduleUpdate];
+                                
+                                [[SimpleAudioEngine sharedEngine] playEffect:@"complete.mp3"];
+                                
+                                [self setTouchEnabled:NO];
+                                CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
+                                [menu setEnabled:NO];
+                                
+                                [nodeFish removeAllChildrenWithCleanup:YES];
+                                
+                                CCNode *gameClear = [CCBReader nodeGraphFromFile:@"scene_game_clear.ccbi" owner:self];
+                                [gameClear setTag:kEatFishGameSceneTagGameClearMainNode];
+                                [gameClear setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, [[CCDirector sharedDirector] winSize].height / 2)];
+                                [self addChild:gameClear];
+                                
+                                CCLabelTTF *gameClearLab1 = (CCLabelTTF*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeLab1];
+                                CCControlButton *gameClearBtnQuit = (CCControlButton*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeBtnQuit];
+                                CCControlButton *gameClearBtnNext = (CCControlButton*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeBtnNext];
+                                [gameClearLab1 setString:NSLocalizedString(@"GameScene_GameClearLab1", nil)];
+                                [gameClearBtnQuit setTitle:NSLocalizedString(@"GameScene_GameClearBtnQuit", nil) forState:CCControlStateNormal];
+                                [gameClearBtnNext setTitle:NSLocalizedString(@"GameScene_GameClearBtnNext", nil) forState:CCControlStateNormal];
+                                
+                                //各种鱼的计数
+                                CCLabelTTF *gameClearLab2 = (CCLabelTTF*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeLab2];
+                                [gameClearLab2 setString:[NSString stringWithFormat:@"%i", _eatFishTotalStatus1And2]];
+                                
+                                CCLabelTTF *gameClearLab3 = (CCLabelTTF*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeLab3];
+                                [gameClearLab3 setString:[NSString stringWithFormat:@"%i", _eatFishTotalStatus3]];
+                                
+                                CCLabelTTF *gameClearLab4 = (CCLabelTTF*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeLab4];
+                                [gameClearLab4 setString:[NSString stringWithFormat:@"%i", _eatFishTotalStatus4]];
+                            }
                             
                             //变大的判断
                             if(player.status == kEatFishObjPlayerNodeStatusMiddle && _eatFish >= APP_PLAYER_STATUS_BIG)

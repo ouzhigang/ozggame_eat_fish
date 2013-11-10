@@ -29,6 +29,7 @@ enum EatFishGameSceneTag
     kEatFishGameSceneTagPauseBtnEffect = 11,
     kEatFishGameSceneTagPauseBtnQuit = 12,
     kEatFishGameSceneTagPauseMainNode = 13,
+    kEatFishGameSceneTagProgress = 23,
     kEatFishGameSceneTagProgressBg = 14,
     kEatFishGameSceneTagFishLife = 15,
     kEatFishGameSceneTagFishLifeLab = 16,
@@ -37,8 +38,14 @@ enum EatFishGameSceneTag
     kEatFishGameSceneTagGameOverMainNodeLab1 = 19,
     kEatFishGameSceneTagGameOverMainNodeLab2 = 20,
     kEatFishGameSceneTagGameOverMainNodeBtnQuit = 21,
-    kEatFishGameSceneTagGameOverMainNodeBtnRestart = 22
-    
+    kEatFishGameSceneTagGameOverMainNodeBtnRestart = 22,
+    kEatFishGameSceneTagGameClearMainNode = 24,
+    kEatFishGameSceneTagGameClearMainNodeLab1 = 25,
+    kEatFishGameSceneTagGameClearMainNodeBtnQuit = 26,
+    kEatFishGameSceneTagGameClearMainNodeBtnNext = 27,
+    kEatFishGameSceneTagGameClearMainNodeLab2 = 28,
+    kEatFishGameSceneTagGameClearMainNodeLab3 = 29,
+    kEatFishGameSceneTagGameClearMainNodeLab4 = 30
 };
 
 enum EatFishGameSceneAlertTag

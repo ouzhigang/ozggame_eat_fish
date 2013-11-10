@@ -34,3 +34,7 @@
 "GameScene_GameOverLab2" = "如有问题请联系作者";
 "GameScene_GameOverBtnQuit" = "退出游戏";
 "GameScene_GameOverBtnRestart" = "重新开始";
+
+"GameScene_GameClearLab1" = "完成关卡";
+"GameScene_GameClearBtnQuit" = "退出游戏";
+"GameScene_GameClearBtnNext" = "下一关";

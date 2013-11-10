@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8909D4A9182F7F8400E0C307 /* progressk.png in Resources */ = {isa = PBXBuildFile; fileRef = 8909D4A8182F7F8400E0C307 /* progressk.png */; };
+		8909D4AB182F8F8500E0C307 /* scene_game_clear.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 8909D4AA182F8F8500E0C307 /* scene_game_clear.ccbi */; };
 		891ED5391825EF5A0062A44C /* btn.wav in Resources */ = {isa = PBXBuildFile; fileRef = 891ED5381825EF5A0062A44C /* btn.wav */; };
 		891ED53B1825F8D40062A44C /* scene_start_help.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 891ED53A1825F8D40062A44C /* scene_start_help.ccbi */; };
 		8924A90A1825D240000188FA /* complete.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8924A9021825D240000188FA /* complete.mp3 */; };
@@ -228,6 +230,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8909D4A8182F7F8400E0C307 /* progressk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progressk.png; sourceTree = "<group>"; };
+		8909D4AA182F8F8500E0C307 /* scene_game_clear.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = scene_game_clear.ccbi; sourceTree = "<group>"; };
 		891ED5381825EF5A0062A44C /* btn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = btn.wav; sourceTree = "<group>"; };
 		891ED53A1825F8D40062A44C /* scene_start_help.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = scene_start_help.ccbi; sourceTree = "<group>"; };
 		8924A9021825D240000188FA /* complete.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = complete.mp3; sourceTree = "<group>"; };
@@ -1316,6 +1320,7 @@
 		897617B518253AAB00C0B854 /* ccb */ = {
 			isa = PBXGroup;
 			children = (
+				8909D4AA182F8F8500E0C307 /* scene_game_clear.ccbi */,
 				89FBA577182DE25B00444EAC /* scene_game_over.ccbi */,
 				9E2DC72D1828A0B700B6CEB0 /* scene_game_pausemenu-ip5.ccbi */,
 				9E2DC72E1828A0B700B6CEB0 /* scene_game_pausemenu.ccbi */,
@@ -1331,6 +1336,7 @@
 		897617B818253AB500C0B854 /* textures */ = {
 			isa = PBXGroup;
 			children = (
+				8909D4A8182F7F8400E0C307 /* progressk.png */,
 				895CD3FA1827D6F0009046F2 /* cump.plist */,
 				895CD3FB1827D6F0009046F2 /* cump.png */,
 				8969544F1827CF0200FC986C /* pause_dw.png */,
@@ -1444,10 +1450,12 @@
 				897616F1182531F900C0B854 /* Icon-Small-50@2x.png in Resources */,
 				897617D01825416C00C0B854 /* btn2_up.png in Resources */,
 				8975B86C18252FB5006A957F /* Icon-Small-50.png in Resources */,
+				8909D4A9182F7F8400E0C307 /* progressk.png in Resources */,
 				897617AA18253A0B00C0B854 /* README.md in Resources */,
 				897617CF1825416C00C0B854 /* btn2_dw.png in Resources */,
 				897616EB182531F900C0B854 /* Icon-40.png in Resources */,
 				897617C818253AB500C0B854 /* Fishtales.png in Resources */,
+				8909D4AB182F8F8500E0C307 /* scene_game_clear.ccbi in Resources */,
 				897617AD18253A0B00C0B854 /* LICENSE in Resources */,
 				897617CE1825416C00C0B854 /* btn1_up.png in Resources */,
 				8924A90D1825D240000188FA /* eatgold.mp3 in Resources */,
