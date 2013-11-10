@@ -44,7 +44,10 @@
 #define APP_MAX_CP 99
 
 //升级到中等或大的所需分数
-#define APP_PLAYER_STATUS_MIDDLE 150
-#define APP_PLAYER_STATUS_BIG 300
+#define APP_PLAYER_STATUS_MIDDLE 145 //这个值必须为APP_CP_CLEAR的29%
+#define APP_PLAYER_STATUS_BIG 305 //这个值必须为APP_CP_CLEAR的61%
+
+//吃够多少条鱼过一关
+#define APP_CP_CLEAR 500 //小鱼+1，中鱼+2，大鱼+3
 
 #endif
