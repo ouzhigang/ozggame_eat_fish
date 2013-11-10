@@ -16,6 +16,8 @@
     NSInteger _checkpoints; //关卡，最大为99
     NSInteger _playerLife; //player的生命值，最大为99
     
+    NSInteger _eatFish; //吃了多少条鱼，用这个值来判断player的成长，小鱼+1，中鱼+2，大鱼+3
+    
 }
 
 - (void)gameStart; //开始游戏
@@ -55,6 +57,8 @@
         _score = 0;
         _checkpoints = 1;
         _playerLife = APP_PLAYER_LIFE;
+        
+        _eatFish = 0;
         
         //随机背景
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Fishall.plist"];
@@ -404,6 +408,8 @@
             _checkpoints = 1;
             _playerLife = APP_PLAYER_LIFE;
             
+            _eatFish = 0;
+            
             CCLabelTTF *checkpointsLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagCheckpoints];
             [checkpointsLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints]];
             
@@ -459,17 +465,31 @@
     {
         case kEatFishObjEnemyFishNodeStatus2:
             _score += APP_SCORE_FISH2;
+            
+            _eatFish += 1;
             break;
         case kEatFishObjEnemyFishNodeStatus3:
             _score += APP_SCORE_FISH3;
+            
+            _eatFish += 2;
             break;
         case kEatFishObjEnemyFishNodeStatus4:
             _score += APP_SCORE_FISH4;
+            
+            _eatFish += 3;
             break;
         default:
             _score += APP_SCORE_FISH1;
+            
+            _eatFish += 1;
             break;
     }
+    
+    if(_score > APP_MAX_SCORE)
+        _score = APP_MAX_SCORE;
+    
+    if(_eatFish > APP_MAX_SCORE)
+        _eatFish = APP_MAX_SCORE;
     
     CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
     [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
@@ -664,6 +684,13 @@
                             
                             //分数
                             [self changeScore:((EatFishObjEnemyFishNode*)targetObj).status];
+                            
+                            //变大的判断
+                            if(player.status == kEatFishObjPlayerNodeStatusMiddle && _eatFish >= APP_PLAYER_STATUS_BIG)
+                                [player changeStatus:kEatFishObjPlayerNodeStatusBig];
+                            else if(player.status == kEatFishObjPlayerNodeStatusSmall && _eatFish >= APP_PLAYER_STATUS_MIDDLE)
+                                [player changeStatus:kEatFishObjPlayerNodeStatusMiddle];
+                            
                         }
                         else
                         {
@@ -703,6 +730,8 @@
                                 }
                                 else
                                 {
+                                    _eatFish = 0;
+                                    
                                     //生命值减1
                                     [[SimpleAudioEngine sharedEngine] playEffect:@"playbyeat.mp3"];
                                     [self changePlayerLife:_playerLife - 1];

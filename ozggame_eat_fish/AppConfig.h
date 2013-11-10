@@ -43,4 +43,8 @@
 //最高关卡（CP即checkpoints）
 #define APP_MAX_CP 99
 
+//升级到中等或大的所需分数
+#define APP_PLAYER_STATUS_MIDDLE 150
+#define APP_PLAYER_STATUS_BIG 300
+
 #endif
