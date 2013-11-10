@@ -213,6 +213,8 @@
     if(self.status == _status)
         return;
     
+    [[SimpleAudioEngine sharedEngine] playEffect:@"growth.mp3"];
+    
     //清理旧的状态
     CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
     [fishObj stopAllActions];
@@ -246,17 +248,18 @@
             break;
     }
     
-    NSMutableArray *animationSpriteFrames = [NSMutableArray array];
+    [self.animationSpriteFrames removeAllObjects]; //清理旧的数据后使用新的数据
+    
     for (NSString *fishSpriteFrameName in fishSpriteFrameNames)
     {
         CCSpriteFrame *animationSpriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:fishSpriteFrameName];
-        [animationSpriteFrames addObject:animationSpriteFrame];
+        [self.animationSpriteFrames addObject:animationSpriteFrame];
     }
     //生成帧动画
-    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
+    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:self.animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
     CCAnimate *anim = [CCAnimate actionWithAnimation:animation];
     
-    CCSprite *newFishObj = [CCSprite spriteWithSpriteFrame:[animationSpriteFrames objectAtIndex:0]];
+    CCSprite *newFishObj = [CCSprite spriteWithSpriteFrame:[self.animationSpriteFrames objectAtIndex:0]];
     [self setContentSize:newFishObj.contentSize];
     
     [newFishObj setPosition:CGPointMake(self.contentSize.width / 2, self.contentSize.height / 2)];
