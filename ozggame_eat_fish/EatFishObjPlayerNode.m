@@ -21,10 +21,13 @@
 - (void)invincible2;
 - (void)invincible2Callback:(ccTime)dt;
 
+- (void)paralysisEnd:(id)sender;
+
 @end
 
 @implementation EatFishObjPlayerNode
 
+@synthesize isTouchMoved;
 @synthesize status;
 @synthesize statusIsInvincible;
 @synthesize statusInvincibleTime;
@@ -47,6 +50,7 @@
         self.typeName = APP_OBJ_TYPE_PLAYER; //这个属性来自父类
         self.status = kEatFishObjPlayerNodeStatusSmall;
         
+        self.isTouchMoved = YES;
         //test
         //self.statusInvincibleTime = APP_PLAYER_INVINCIBLE2;
         //[self invincible2];
@@ -291,6 +295,43 @@
     [scoreEffect runAction:[CCSequence actionOne:[CCMoveBy actionWithDuration:1.0 position:CGPointMake(0, 20)] two:[CCCallFuncN actionWithTarget:self selector:@selector(scoreEffectMoveEnd:)]]];
     
     [super cump];
+}
+
+- (void)paralysis
+{
+    if(!self.isTouchMoved)
+        return;
+    
+    [[SimpleAudioEngine sharedEngine] playEffect:@"jellyfish.mp3"];
+    self.isTouchMoved = NO;
+    
+    [self stopAllActions];
+    CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
+    if(fishObj)
+        [fishObj stopAllActions];
+    
+    CCMoveBy *act1 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(-3, 0)];
+    CCMoveBy *act2 = [CCMoveBy actionWithDuration:0.02 position:CGPointMake(6, 0)];
+    CCActionInterval *act3 = [act2 reverse];
+    CCMoveBy *act4 = [CCMoveBy actionWithDuration:0.01 position:CGPointMake(3, 0)];
+    
+    [self unscheduleUpdate]; //停止update里面的计数
+    
+    //麻痹5秒后恢复正常
+    [self runAction:[CCSequence actions:act1, act2, act3, act4, [CCDelayTime actionWithDuration:5], [CCCallFuncN actionWithTarget:self selector:@selector(paralysisEnd:)], nil]];
+}
+
+- (void)paralysisEnd:(id)sender
+{
+    //生成帧动画
+    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:self.animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
+    CCAnimate *anim = [CCAnimate actionWithAnimation:animation];
+    
+    CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];
+    [fishObj runAction:[CCRepeatForever actionWithAction:anim]];
+    
+    self.isTouchMoved = YES;
+    [self scheduleUpdate];
 }
 
 - (void)scoreEffectMoveEnd:(id)sender

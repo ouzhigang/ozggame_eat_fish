@@ -30,6 +30,7 @@ enum EatFishObjPlayerNodeStatus
 
 @interface EatFishObjPlayerNode : EatFishObjFishNode
 
+@property (nonatomic, assign)BOOL isTouchMoved; //是否可操作player对象移动
 @property (nonatomic, assign)enum EatFishObjPlayerNodeStatus status; //大小状态
 @property (nonatomic, assign)BOOL statusIsInvincible; //是否是无敌状态
 @property (nonatomic, assign)int statusInvincibleTime; //无敌时间，单位为秒
@@ -40,5 +41,6 @@ enum EatFishObjPlayerNodeStatus
 - (void)changeStatus:(enum EatFishObjPlayerNodeStatus)status;
 
 - (void)cump:(enum EatFishObjEnemyFishNodeStatus)_status; //吃掉一条鱼
+- (void)paralysis; //麻痹，碰到了水母后执行
 
 @end

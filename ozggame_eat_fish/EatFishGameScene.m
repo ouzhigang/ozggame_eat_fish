@@ -78,21 +78,21 @@
         [blisterRight setTag:kEatFishGameSceneTagBlisterRight];
         [self addChild:blisterRight];
         
-        //玩家控制的鱼
-        EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
-        [player setPosition:CGPointMake(winSize.width / 2, 400)];
-        [player setTag:kEatFishGameSceneTagPlayer];
-        [self addChild:player];
-        
         //test
         //[player changeStatus:kEatFishObjPlayerNodeStatusBig];
         
         //AI控制的鱼和水母的层
-        CCNode *nodeAI = [CCNode node];
-        [nodeAI setAnchorPoint:CGPointZero];
-        [nodeAI setPosition:CGPointZero];
-        [nodeAI setTag:kEatFishGameSceneTagNodeAI];
-        [self addChild:nodeAI];
+        CCNode *nodeFish = [CCNode node];
+        [nodeFish setAnchorPoint:CGPointZero];
+        [nodeFish setPosition:CGPointZero];
+        [nodeFish setTag:kEatFishGameSceneTagNodeFish];
+        [self addChild:nodeFish];
+        
+        //玩家控制的鱼
+        EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+        [player setPosition:CGPointMake(winSize.width / 2, 400)];
+        [player setTag:kEatFishGameSceneTagPlayer];
+        [nodeFish addChild:player];
         
         //右上角的部分
         CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
@@ -176,8 +176,10 @@
 {
     [[SimpleAudioEngine sharedEngine] playEffect:@"fishstart.mp3"];
     
+    CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
+    
     //鱼掉下来
-    CCNode *player = [self getChildByTag:kEatFishGameSceneTagPlayer];
+    CCNode *player = [nodeFish getChildByTag:kEatFishGameSceneTagPlayer];
     [player runAction:[CCSequence actionOne:[CCMoveBy actionWithDuration:1.0 position:CGPointMake(0, -200)] two:[CCCallFunc actionWithTarget:self selector:@selector(gameStartCallback)]]];
     
     [self setTouchEnabled:NO];
@@ -201,10 +203,12 @@
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
+    CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
+    
     EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
     [player setPosition:CGPointMake(winSize.width / 2, 400)];
     [player setTag:kEatFishGameSceneTagPlayer];
-    [self addChild:player];
+    [nodeFish addChild:player];
     
     //鱼掉下来
     [player runAction:[CCSequence actionOne:[CCMoveBy actionWithDuration:1.0 position:CGPointMake(0, -200)] two:[CCCallFunc actionWithTarget:self selector:@selector(gameRestartCallback)]]];
@@ -233,8 +237,10 @@
     UITouch *touch = [touches anyObject];
     CGPoint point = [[CCDirector sharedDirector] convertToGL:[touch locationInView:touch.view]];
     
-    EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
-    if(player)
+    CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
+    
+    EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[nodeFish getChildByTag:kEatFishGameSceneTagPlayer];
+    if(player && player.isTouchMoved)
     {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         CGRect moveRect = CGRectMake(player.contentSize.width / 2, player.contentSize.height / 2, winSize.width - (player.contentSize.width / 2), winSize.height - (player.contentSize.height / 2));
@@ -411,10 +417,12 @@
             [gameOver removeFromParentAndCleanup:YES];
             
             //玩家控制的鱼
+            CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
+            
             EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
             [player setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, 400)];
             [player setTag:kEatFishGameSceneTagPlayer];
-            [self addChild:player];
+            [nodeFish addChild:player];
             
             [self gameStart];
         }
@@ -489,10 +497,7 @@
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
     //AI鱼和水母出现的层
-    CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
-    
-    //player
-    EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)[self getChildByTag:kEatFishGameSceneTagPlayer];
+    CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
     
     //水母
     if([OzgCCUtility randomRate:APP_AI_JELLYFISH])
@@ -505,7 +510,7 @@
         
         [jellyfish setPosition:CGPointMake(srcX, -jellyfish.contentSize.height / 2)];
         
-        [nodeAI addChild:jellyfish];
+        [nodeFish addChild:jellyfish];
         
         ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:15.0];
         [jellyfish runAction:[CCSequence actionOne:[CCMoveTo actionWithDuration:moveTime position:CGPointMake(srcX, winSize.height + (jellyfish.contentSize.height / 2))] two:[CCCallFuncN actionWithTarget:self selector:@selector(jellyfishMoveEnd:)]]];
@@ -568,107 +573,8 @@
     
     //以下是碰撞
 
-    NSArray *srcAllFishs = [[nodeAI children] getNSArray]; //碰撞源对象
+    NSArray *srcAllFishs = [[nodeFish children] getNSArray]; //碰撞源对象
     NSArray *targetAllFishs = [srcAllFishs copy]; //碰撞目标对象
-
-    //player和AI鱼水母之间的检测 ，检测只有在可操作的时候有效
-    if([self isTouchEnabled])
-    {
-        for (NSInteger i = 0; i < targetAllFishs.count; i++)
-        {
-            EatFishObjFishNode *targetObj = (EatFishObjFishNode*)[targetAllFishs objectAtIndex:i];
-            
-            if(CGRectIntersectsRect(player.collisionArea, [targetObj boundingBox]) && [targetObj.typeName isEqualToString:APP_OBJ_TYPE_FISH])
-            {
-                //NSLog(@"player与AI鱼碰撞了");
-                
-                switch (player.status)
-                {
-                    case kEatFishObjPlayerNodeStatusMiddle:
-                    {
-                        //中的状态
-                        
-                    }
-                        break;
-                    case kEatFishObjPlayerNodeStatusBig:
-                    {
-                        //大的状态
-                        
-                    }
-                        break;
-                    default:
-                    {
-                        //小的状态
-                        if(((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus1 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus2)
-                        {
-                            //吃了比自己小的鱼
-                            [player cump:((EatFishObjEnemyFishNode*)targetObj).status];
-                            [targetObj stopAllActions];
-                            [targetObj removeFromParentAndCleanup:YES];
-                            
-                            //分数
-                            [self changeScore:((EatFishObjEnemyFishNode*)targetObj).status];
-                        }
-                        else
-                        {
-                            //被比自己大的鱼吃了
-                            if(!player.statusIsInvincible)
-                            {                                
-                                [((EatFishObjEnemyFishNode*)targetObj) cump];
-                                [player stopAllActions];
-                                [player removeFromParentAndCleanup:YES];
-                                
-                                if(_playerLife == 0)
-                                {
-                                    [self unscheduleUpdate];
-                                    
-                                    //没有了生命值就game over
-                                    [[SimpleAudioEngine sharedEngine] playEffect:@"complete.mp3"];
-                                    
-                                    [self setTouchEnabled:NO];
-                                    CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
-                                    [menu setEnabled:NO];
-                                    
-                                    CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
-                                    [nodeAI removeAllChildrenWithCleanup:YES];
-                                    
-                                    CCNode *gameOver = [CCBReader nodeGraphFromFile:@"scene_game_over.ccbi" owner:self];
-                                    [gameOver setTag:kEatFishGameSceneTagGameOverMainNode];
-                                    [gameOver setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, [[CCDirector sharedDirector] winSize].height / 2)];
-                                    [self addChild:gameOver];
-                                    
-                                    CCLabelTTF *gameOverLab1 = (CCLabelTTF*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeLab1];
-                                    CCLabelTTF *gameOverLab2 = (CCLabelTTF*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeLab2];
-                                    CCControlButton *gameOverBtnQuit = (CCControlButton*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeBtnQuit];
-                                    CCControlButton *gameOverBtnRestart = (CCControlButton*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeBtnRestart];
-                                    [gameOverLab1 setString:NSLocalizedString(@"GameScene_GameOverLab1", nil)];
-                                    [gameOverLab2 setString:NSLocalizedString(@"GameScene_GameOverLab2", nil)];
-                                    [gameOverBtnQuit setTitle:NSLocalizedString(@"GameScene_GameOverBtnQuit", nil) forState:CCControlStateNormal];
-                                    [gameOverBtnRestart setTitle:NSLocalizedString(@"GameScene_GameOverBtnRestart", nil) forState:CCControlStateNormal];
-                                }
-                                else
-                                {
-                                    //生命值减1
-                                    [[SimpleAudioEngine sharedEngine] playEffect:@"playbyeat.mp3"];
-                                    [self changePlayerLife:_playerLife - 1];
-                                    [self scheduleOnce:@selector(gameRestart:) delay:2.5]; //等待一定时间后继续游戏
-                                    
-                                }
-                            }
-                        }
-                        
-                    }
-                        break;
-                }
-                
-            }
-            else if(CGRectIntersectsRect([player boundingBox], [targetObj boundingBox]) && [targetObj.typeName isEqualToString:APP_OBJ_TYPE_JELLYFISH])
-            {
-                NSLog(@"player与水母碰撞了");
-                
-            }
-        }
-    }
     
     //AI鱼和水母之间的检测
     for (NSInteger i = 0; i < srcAllFishs.count; i++)
@@ -707,6 +613,108 @@
                         
                     }
                 }
+                else if([srcObj.typeName isEqualToString:APP_OBJ_TYPE_PLAYER])
+                {
+                    if([targetObj.typeName isEqualToString:APP_OBJ_TYPE_JELLYFISH])
+                    {
+                        //NSLog(@"player与水母碰撞了");
+                        if(!((EatFishObjPlayerNode*)srcObj).statusIsInvincible)
+                            [((EatFishObjPlayerNode*)srcObj) paralysis];
+                    }
+                    
+                    if([targetObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [self isTouchEnabled])
+                    {
+                        //NSLog(@"player与AI鱼碰撞了");
+                        
+                        BOOL doEat = false;
+                        
+                        EatFishObjPlayerNode *player = (EatFishObjPlayerNode*)srcObj;
+                        switch (player.status)
+                        {
+                            case kEatFishObjPlayerNodeStatusMiddle:
+                            {
+                                //中的状态
+                                if(((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus1 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus2 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus3)
+                                    doEat = true;
+                            }
+                                break;
+                            case kEatFishObjPlayerNodeStatusBig:
+                            {
+                                //大的状态
+                                if(((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus1 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus2 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus3 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus4)
+                                    doEat = true;
+                            }
+                                break;
+                            default:
+                            {
+                                //小的状态
+                                if(((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus1 || ((EatFishObjEnemyFishNode*)targetObj).status == kEatFishObjEnemyFishNodeStatus2)
+                                    doEat = true;
+                                
+                            }
+                                break;
+                        }
+                        
+                        if(doEat)
+                        {
+                            //吃掉比自己小的鱼
+                            [player cump:((EatFishObjEnemyFishNode*)targetObj).status];
+                            [targetObj stopAllActions];
+                            [targetObj removeFromParentAndCleanup:YES];
+                            
+                            //分数
+                            [self changeScore:((EatFishObjEnemyFishNode*)targetObj).status];
+                        }
+                        else
+                        {
+                            //如果不是无敌状态的话，就会被比自己大的鱼吃了
+                            if(!player.statusIsInvincible)
+                            {
+                                [((EatFishObjEnemyFishNode*)targetObj) cump];
+                                [player stopAllActions];
+                                [player removeFromParentAndCleanup:YES];
+                                
+                                if(_playerLife == 0)
+                                {
+                                    [self unscheduleUpdate];
+                                    
+                                    //没有了生命值就game over
+                                    [[SimpleAudioEngine sharedEngine] playEffect:@"complete.mp3"];
+                                    
+                                    [self setTouchEnabled:NO];
+                                    CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
+                                    [menu setEnabled:NO];
+                                    
+                                    [nodeFish removeAllChildrenWithCleanup:YES];
+                                    
+                                    CCNode *gameOver = [CCBReader nodeGraphFromFile:@"scene_game_over.ccbi" owner:self];
+                                    [gameOver setTag:kEatFishGameSceneTagGameOverMainNode];
+                                    [gameOver setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, [[CCDirector sharedDirector] winSize].height / 2)];
+                                    [self addChild:gameOver];
+                                    
+                                    CCLabelTTF *gameOverLab1 = (CCLabelTTF*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeLab1];
+                                    CCLabelTTF *gameOverLab2 = (CCLabelTTF*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeLab2];
+                                    CCControlButton *gameOverBtnQuit = (CCControlButton*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeBtnQuit];
+                                    CCControlButton *gameOverBtnRestart = (CCControlButton*)[gameOver getChildByTag:kEatFishGameSceneTagGameOverMainNodeBtnRestart];
+                                    [gameOverLab1 setString:NSLocalizedString(@"GameScene_GameOverLab1", nil)];
+                                    [gameOverLab2 setString:NSLocalizedString(@"GameScene_GameOverLab2", nil)];
+                                    [gameOverBtnQuit setTitle:NSLocalizedString(@"GameScene_GameOverBtnQuit", nil) forState:CCControlStateNormal];
+                                    [gameOverBtnRestart setTitle:NSLocalizedString(@"GameScene_GameOverBtnRestart", nil) forState:CCControlStateNormal];
+                                }
+                                else
+                                {
+                                    //生命值减1
+                                    [[SimpleAudioEngine sharedEngine] playEffect:@"playbyeat.mp3"];
+                                    [self changePlayerLife:_playerLife - 1];
+                                    [self scheduleOnce:@selector(gameRestart:) delay:2.5]; //等待一定时间后继续游戏
+                                    
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                
             }
             
         }
@@ -754,7 +762,7 @@
 
 - (void)enemyFishEmergence:(EatFishObjEnemyFishNode*)_enemyFishNode
 {
-    CCNode *nodeAI = [self getChildByTag:kEatFishGameSceneTagNodeAI];
+    CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
     
     CGPoint startPoint;
     CGPoint endPoint;
@@ -774,7 +782,7 @@
         [_enemyFishNode orientationLeft]; //右边出现需要面向左边
     }
     [_enemyFishNode setPosition:startPoint];
-    [nodeAI addChild:_enemyFishNode];
+    [nodeFish addChild:_enemyFishNode];
     
     ccTime moveTime = [OzgCCUtility randomRange:10.0 withMaxValue:20.0];
     

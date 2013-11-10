@@ -10,8 +10,7 @@
 
 @interface EatFishObjFishNode()
 {
-    NSMutableArray *_animationSpriteFrames;
-    
+        
 }
 
 - (void)cumpAutoHide:(id)sender; //cump的精灵自动消失
@@ -33,6 +32,8 @@
 @synthesize orientation;
 @synthesize typeName;
 
+@synthesize animationSpriteFrames;
+
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames
 {
     EatFishObjFishNode *obj = [[[EatFishObjFishNode alloc] initWithFishSpriteFrameNames:fishSpriteFrameNames] autorelease];
@@ -45,17 +46,17 @@
     if(self)
     {
         //用SpriteFrameName生成SpriteFrame的数组
-        _animationSpriteFrames = [[NSMutableArray alloc] init];
+        self.animationSpriteFrames = [[NSMutableArray alloc] init];
         for (NSString *fishSpriteFrameName in fishSpriteFrameNames)
         {
             CCSpriteFrame *animationSpriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:fishSpriteFrameName];
-            [_animationSpriteFrames addObject:animationSpriteFrame];
+            [self.animationSpriteFrames addObject:animationSpriteFrame];
         }
         //生成帧动画
-        CCAnimation *animation = [CCAnimation animationWithSpriteFrames:_animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
+        CCAnimation *animation = [CCAnimation animationWithSpriteFrames:self.animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
         CCAnimate *anim = [CCAnimate actionWithAnimation:animation];
         
-        CCSprite *fishObj = [CCSprite spriteWithSpriteFrame:[_animationSpriteFrames objectAtIndex:0]];
+        CCSprite *fishObj = [CCSprite spriteWithSpriteFrame:[self.animationSpriteFrames objectAtIndex:0]];
         
         [self setAnchorPoint:CGPointMake(0.5, 0.5)];
         [self setContentSize:fishObj.contentSize];
@@ -85,8 +86,8 @@
     if(chumSprite)
         [chumSprite removeFromParentAndCleanup:YES];
     
-    [_animationSpriteFrames removeAllObjects];
-    [_animationSpriteFrames release];
+    [self.animationSpriteFrames removeAllObjects];
+    [self.animationSpriteFrames release];
     
     //NSLog(@"EatFishObjFishNode dealloc");
     [super dealloc];
@@ -168,7 +169,7 @@
 - (void)paralysisEnd:(id)sender
 {
     //生成帧动画
-    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:_animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
+    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:self.animationSpriteFrames delay:APP_OBJ_FISH_ANIM];
     CCAnimate *anim = [CCAnimate actionWithAnimation:animation];
     
     CCNode *fishObj = [self getChildByTag:kEatFishObjFishNodeTagMainSprite];

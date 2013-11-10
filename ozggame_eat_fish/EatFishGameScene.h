@@ -32,7 +32,7 @@ enum EatFishGameSceneTag
     kEatFishGameSceneTagProgressBg = 14,
     kEatFishGameSceneTagFishLife = 15,
     kEatFishGameSceneTagFishLifeLab = 16,
-    kEatFishGameSceneTagNodeAI = 17,
+    kEatFishGameSceneTagNodeFish = 17,
     kEatFishGameSceneTagGameOverMainNode = 18,
     kEatFishGameSceneTagGameOverMainNodeLab1 = 19,
     kEatFishGameSceneTagGameOverMainNodeLab2 = 20,

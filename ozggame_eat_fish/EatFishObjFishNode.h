@@ -33,6 +33,8 @@ enum EatFishObjFishNodeOrientation
 @property (nonatomic, assign)enum EatFishObjFishNodeOrientation orientation; //朝向
 @property (nonatomic, assign)NSString* typeName;
 
+@property (nonatomic, assign)NSMutableArray *animationSpriteFrames;
+
 + (id)nodeWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
 - (id)initWithFishSpriteFrameNames:(NSArray*)fishSpriteFrameNames;
 
