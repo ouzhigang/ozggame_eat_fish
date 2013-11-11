@@ -52,7 +52,7 @@
     [[CCTextureCache sharedTextureCache] removeTextureForKey:[OzgCCUtility getImagePath:@"bg1.png"]];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"btn1_dw.png"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"btn1_up.png"];
-    
+    [[CCTextureCache sharedTextureCache] removeTextureForKey:@"scene_start_title.png"];
     //[[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
     //NSLog(@"EatFishStartScene dealloc");
     [super dealloc];

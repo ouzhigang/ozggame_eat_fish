@@ -70,9 +70,11 @@
         _eatFishTotalStatus3 = 0;
         _eatFishTotalStatus4 = 0;
         
-        //随机背景
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Fishtales.plist"];
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Fishall.plist"];
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"cump.plist"];
+        
+        //随机背景
         NSArray *bgArray = [NSArray arrayWithObjects:@"bg1.png", @"bg2.png", @"bg3.png", nil];
         
         _bg = [bgArray objectAtIndex:arc4random() % bgArray.count];
@@ -179,6 +181,8 @@
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"btn2_dw.png"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"btn2_up.png"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:[OzgCCUtility getImagePath:_bg]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"Fishtales.plist"];
+    [[CCTextureCache sharedTextureCache] removeTextureForKey:@"Fishtales.png"];
     [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"Fishall.plist"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"Fishall.png"];
     [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFramesFromFile:@"cump.plist"];
@@ -187,7 +191,7 @@
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pause_dw.png"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"pause_up.png"];
     [[CCTextureCache sharedTextureCache] removeTextureForKey:@"progressk.png"];
-    [[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
+    //[[CCTextureCache sharedTextureCache] dumpCachedTextureInfo];
     //NSLog(@"EatFishGameScene dealloc");
     [super dealloc];
 }

@@ -20,6 +20,7 @@ var ccb_resources = [
     {type:'image', src:"btn2_dw.png"},
     {type:'image', src:"Fishall.png"},
     {type:'image', src:"Fishtales.png"},
+    {type:'image', src:"scene_start_title.png"},
     {type:'ccbi', src:"scene_game_clear.ccbi"},
     {type:'ccbi', src:"scene_game_over.ccbi"},
 ];

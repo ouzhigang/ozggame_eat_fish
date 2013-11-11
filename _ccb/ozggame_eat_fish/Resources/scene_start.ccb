@@ -147,8 +147,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1</real>
-							<real>1</real>
+							<real>1.5</real>
+							<real>1.5</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -176,8 +176,8 @@
 						<string>SpriteFrame</string>
 						<key>value</key>
 						<array>
-							<string>Fishtales.plist</string>
-							<string>fishtales.png</string>
+							<string></string>
+							<string>scene_start_title.png</string>
 						</array>
 					</dict>
 				</array>
@@ -829,8 +829,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
