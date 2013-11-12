@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>37931DF5-FC84-437D-9E1E-12E10205C9A0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ozggame_eat_fish</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6B7692BF-3FD9-4658-96B1-6D1799165746</key>
+		<string>https://github.com/ouzhigang/ozggame_eat_fish.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ozggame_eat_fish.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6B7692BF-3FD9-4658-96B1-6D1799165746</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ouzhigang/ozggame_eat_fish.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6B7692BF-3FD9-4658-96B1-6D1799165746</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6B7692BF-3FD9-4658-96B1-6D1799165746</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ozggame_eat_fish</string>
+		</dict>
+	</array>
+</dict>
+</plist>
