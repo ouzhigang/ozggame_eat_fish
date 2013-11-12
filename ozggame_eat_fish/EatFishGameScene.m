@@ -457,6 +457,9 @@
             CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
             [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
             
+            CCSprite *progress = (CCSprite*)[self getChildByTag:kEatFishGameSceneTagProgress];
+            [progress setScaleX:0];
+            
             CCNode *gameOver = [self getChildByTag:kEatFishGameSceneTagGameOverMainNode];
             [gameOver removeFromParentAndCleanup:YES];
             
