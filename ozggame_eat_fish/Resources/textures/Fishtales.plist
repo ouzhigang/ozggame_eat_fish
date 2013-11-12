@@ -817,7 +817,7 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{812, 187.5}, {66, 94}}</string>
+			<string>{{807, 187.5}, {66, 94}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
