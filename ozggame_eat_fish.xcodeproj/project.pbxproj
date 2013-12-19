@@ -245,6 +245,8 @@
 		9E73995D18273C5000A251CE /* scene_start-ip5.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = 9E73995B18273C5000A251CE /* scene_start-ip5.ccbi */; };
 		9E7399601827423B00A251CE /* EatFishObjFishData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E73995F1827423B00A251CE /* EatFishObjFishData.m */; };
 		9E739962182759CD00A251CE /* flower.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9E739961182759CD00A251CE /* flower.plist */; };
+		9ED52BEE1862C6B100DF567C /* OzgOCExtensionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED52BEB1862C6B100DF567C /* OzgOCExtensionObject.m */; };
+		9ED52BEF1862C6B100DF567C /* OzgOCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED52BED1862C6B100DF567C /* OzgOCUtility.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -673,6 +675,10 @@
 		9E73995E1827423B00A251CE /* EatFishObjFishData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EatFishObjFishData.h; sourceTree = "<group>"; };
 		9E73995F1827423B00A251CE /* EatFishObjFishData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EatFishObjFishData.m; sourceTree = "<group>"; };
 		9E739961182759CD00A251CE /* flower.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = flower.plist; sourceTree = "<group>"; };
+		9ED52BEA1862C6B100DF567C /* OzgOCExtensionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzgOCExtensionObject.h; sourceTree = "<group>"; };
+		9ED52BEB1862C6B100DF567C /* OzgOCExtensionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzgOCExtensionObject.m; sourceTree = "<group>"; };
+		9ED52BEC1862C6B100DF567C /* OzgOCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzgOCUtility.h; sourceTree = "<group>"; };
+		9ED52BED1862C6B100DF567C /* OzgOCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzgOCUtility.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1175,6 +1181,10 @@
 		897616F51825332600C0B854 /* commons */ = {
 			isa = PBXGroup;
 			children = (
+				9ED52BEA1862C6B100DF567C /* OzgOCExtensionObject.h */,
+				9ED52BEB1862C6B100DF567C /* OzgOCExtensionObject.m */,
+				9ED52BEC1862C6B100DF567C /* OzgOCUtility.h */,
+				9ED52BED1862C6B100DF567C /* OzgOCUtility.m */,
 				9E739957182738A700A251CE /* OzgCCUtility.h */,
 				9E739958182738A700A251CE /* OzgCCUtility.m */,
 				897616F21825332200C0B854 /* EatFishBaseScene.h */,
@@ -1610,6 +1620,7 @@
 				897617A718253A0B00C0B854 /* ccControlShaders.m in Sources */,
 				8975B8F318252FB7006A957F /* CCParticleBatchNode.m in Sources */,
 				8975B93618252FB7006A957F /* CCTextureAtlas.m in Sources */,
+				9ED52BEE1862C6B100DF567C /* OzgOCExtensionObject.m in Sources */,
 				8975B9E418252FB8006A957F /* utility.c in Sources */,
 				8975B99018252FB8006A957F /* CCVertex.m in Sources */,
 				8975B99618252FB8006A957F /* NSThread+performBlock.m in Sources */,
@@ -1680,6 +1691,7 @@
 				8975B94818252FB7006A957F /* CCTMXTiledMap.m in Sources */,
 				8975B90918252FB7006A957F /* CCRenderTexture.m in Sources */,
 				8975B89118252FB6006A957F /* CCActionInterval.m in Sources */,
+				9ED52BEF1862C6B100DF567C /* OzgOCUtility.m in Sources */,
 				8975B8FF18252FB7006A957F /* CCPhysicsDebugNode.m in Sources */,
 				8975B88518252FB5006A957F /* CCActionEase.m in Sources */,
 				8975B8C218252FB6006A957F /* CCFontDefinition.m in Sources */,
@@ -1760,7 +1772,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1779,7 +1791,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1795,6 +1807,7 @@
 				GCC_PREFIX_HEADER = ozggame_eat_fish/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"ozggame_eat_fish/libs/kazmath/include\"";
 				INFOPLIST_FILE = ozggame_eat_fish/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1814,6 +1827,7 @@
 				GCC_PREFIX_HEADER = ozggame_eat_fish/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"ozggame_eat_fish/libs/kazmath/include\"";
 				INFOPLIST_FILE = ozggame_eat_fish/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
