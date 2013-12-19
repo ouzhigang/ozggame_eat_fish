@@ -7,22 +7,37 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonCryptor.h>
 
 //NS
 
 @interface NSString(ExtensionNSString)
 
-- (NSUInteger) getReallyLength; //获取真实长度（中文为两个字节）
+- (NSUInteger)getReallyLength; //获取真实长度（中文为两个字节）
 
 - (NSString*)toURLEncoding; //URL编码
 
 - (NSString*)stringByAppendingFileSuffix:(NSString*)suffix; //添加文件名后缀（除去文件扩展名）
+
+- (NSString*)md5;
 
 @end
 
 @interface NSArray(ExtensionNSArray)
 
 - (NSArray*)randSort; //随机排序
+
+@end
+
+@interface NSData (ExtensionNSData)
+
+- (NSData *)AES256EncryptWithKey:(NSString *)key;   //加密
+- (NSData *)AES256DecryptWithKey:(NSString *)key;   //解密
+- (NSString *)newStringInBase64FromData;            //追加64编码
++ (NSString*)base64encode:(NSString*)str;           //同上64编码
+
+- (NSString*)md5;
 
 @end
 
