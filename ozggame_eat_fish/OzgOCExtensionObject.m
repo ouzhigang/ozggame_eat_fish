@@ -142,7 +142,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 
 - (NSString *)newStringInBase64FromData            //追加64编码
 {
-    NSMutableString *dest = [[NSMutableString alloc] initWithString:@""];
+    NSMutableString *dest = [[[NSMutableString alloc] initWithString:@""] autorelease];
     unsigned char * working = (unsigned char *)[self bytes];
     int srcLen = [self length];
     
