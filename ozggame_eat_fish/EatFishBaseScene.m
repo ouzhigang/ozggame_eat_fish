@@ -2,8 +2,8 @@
 //  EatFishBaseScene.m
 //  ozggame_eat_fish
 //
-//  Created by 欧志刚 on 13-11-2.
-//  Copyright (c) 2013年 欧志刚. All rights reserved.
+//  Created by ozg on 13-11-2.
+//  Copyright (c) 2013年 ozg. All rights reserved.
 //
 
 #import "EatFishBaseScene.h"

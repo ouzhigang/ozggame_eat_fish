@@ -2,8 +2,8 @@
 //  main.m
 //  ozggame_eat_fish
 //
-//  Created by 欧志刚 on 13-11-2.
-//  Copyright 欧志刚 2013年. All rights reserved.
+//  Created by ozg on 13-11-2.
+//  Copyright ozg 2013年. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

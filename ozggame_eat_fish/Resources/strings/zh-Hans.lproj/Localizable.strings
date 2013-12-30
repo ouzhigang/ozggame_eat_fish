@@ -2,11 +2,11 @@
   Localizable.strings
   ozggame_eat_fish
 
-  Created by 欧志刚 on 13-11-8.
-  Copyright (c) 2013年 欧志刚. All rights reserved.
+  Created by ozg on 13-11-8.
+  Copyright (c) 2013年 ozg. All rights reserved.
 */
 
-"Alert_Title" = "欧志提示";
+"Alert_Title" = "OZG Prompt";
 
 "StartScene_AlertBtnCancel" = "取消";
 "StartScene_AlertBtnMonitor" = "监听周边玩家";

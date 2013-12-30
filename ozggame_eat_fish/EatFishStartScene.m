@@ -2,8 +2,8 @@
 //  EatFishStartScene.m
 //  ozggame_eat_fish
 //
-//  Created by 欧志刚 on 13-11-2.
-//  Copyright (c) 2013年 欧志刚. All rights reserved.
+//  Created by ozg on 13-11-2.
+//  Copyright (c) 2013年 ozg. All rights reserved.
 //
 
 #import "EatFishStartScene.h"
@@ -88,7 +88,7 @@
             //NSLog(@"蓝牙连接");
 //            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"StartScene_AlertBtnCancel", nil) otherButtonTitles:NSLocalizedString(@"StartScene_AlertBtnMonitor", nil), NSLocalizedString(@"StartScene_AlertBtnScan", nil), nil] autorelease];
 //            [alert show];
-            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"欧志提示" message:@"本功能未完成" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] autorelease];
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:@"本功能未完成" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] autorelease];
             [alert show];
             
         }
