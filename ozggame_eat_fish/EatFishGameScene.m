@@ -318,7 +318,19 @@
             {
                 //NSLog(@"暂停游戏");
                 [[SimpleAudioEngine sharedEngine] playEffect:@"btn.wav"];
-                [[CCDirector sharedDirector] pause];
+                
+                //暂停游戏节点的所有子对象
+                CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
+                NSArray *fishs = [[nodeFish children] getNSArray];
+                for (CCNode *fish in fishs)
+                {
+                    NSArray *fishChildren = [[fish children] getNSArray];
+                    for (CCNode *fishChild in fishChildren)
+                        [fishChild pauseSchedulerAndActions];
+                    
+                    [fish pauseSchedulerAndActions];
+                }
+                [self pauseSchedulerAndActions];
                 
                 CGSize winSize = [[CCDirector sharedDirector] winSize];
                 
@@ -374,7 +386,18 @@
             [menu setEnabled:YES];
             [self setTouchEnabled:YES];
             
-            [[CCDirector sharedDirector] resume];
+            //继续游戏节点的所有子对象
+            CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
+            NSArray *fishs = [[nodeFish children] getNSArray];
+            for (CCNode *fish in fishs)
+            {
+                NSArray *fishChildren = [[fish children] getNSArray];
+                for (CCNode *fishChild in fishChildren)
+                    [fishChild resumeSchedulerAndActions];
+                
+                [fish resumeSchedulerAndActions];
+            }
+            [self resumeSchedulerAndActions];
         }
             break;
         case kEatFishGameSceneTagPauseBtnBgSound:
