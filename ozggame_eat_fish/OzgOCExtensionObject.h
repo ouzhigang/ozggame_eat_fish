@@ -1,14 +1,13 @@
-/*
- 内置类方法扩展
- 最后修改日期: 2012-12-19
- 最后修改人: ozg
- 
- */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
+
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#import <UIKit/UIKit.h>
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+#import <AppKit/AppKit.h>
+#endif
 
 //NS
 
@@ -43,6 +42,7 @@
 
 //UIKit
 
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 @interface UIImage(ExtensionUIImage)
 
 - (UIImage *)imageRotatedByRadians:(CGFloat)radians; //图片旋转 参数为弧度
@@ -56,3 +56,6 @@
 + (UIColor*) colorFromHexRGB:(NSString*) inColorString; //用十六进制的方式获取UIColor对象（参数的前面不用加#号）
 
 @end
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+
+#endif

@@ -63,7 +63,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 {
     const char *cStr = [self UTF8String];
     unsigned char result[16];
-    CC_MD5( cStr, strlen(cStr), result ); // This is the md5 call
+    CC_MD5( cStr, (CC_LONG)strlen(cStr), result ); // This is the md5 call
     return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
             result[0], result[1], result[2], result[3],
             result[4], result[5], result[6], result[7],
@@ -82,9 +82,9 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
     NSUInteger count = self.count;
     for (NSUInteger i = 0; i < count; ++i)
     {
-        int nElements = count - i;
-        srandom(time(NULL));
-        int n = (random() % nElements) + i;
+        NSUInteger nElements = count - i;
+        srandom((unsigned int)time(NULL));
+        NSUInteger n = (random() % nElements) + i;
         [tmpAry exchangeObjectAtIndex:i withObjectAtIndex:n];
     }
     return tmpAry;
@@ -144,7 +144,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 {
     NSMutableString *dest = [[[NSMutableString alloc] initWithString:@""] autorelease];
     unsigned char * working = (unsigned char *)[self bytes];
-    int srcLen = [self length];
+    NSUInteger srcLen = [self length];
     
     for (int i = 0; i < srcLen; i += 3)
     {
@@ -174,7 +174,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
     
     const char *source = [str UTF8String];
     
-    int strlength = strlen(source);
+    unsigned long strlength = strlen(source);
     
     char *characters = malloc(((strlength + 2) / 3) * 4);
     
@@ -219,7 +219,9 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 - (NSString*)md5
 {
     unsigned char result[16];
-    CC_MD5( self.bytes, self.length, result ); // This is the md5 call
+    
+    CC_MD5( self.bytes, (CC_LONG)self.length, result ); // This is the md5 call
+    
     return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
             result[0], result[1], result[2], result[3],
             result[4], result[5], result[6], result[7],
@@ -231,7 +233,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 @end
 
 //UIKit
-
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 @implementation UIImage(ExtensionUIImage)
 
 - (UIImage *)imageRotatedByRadians:(CGFloat)radians
@@ -307,3 +309,6 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 }
 
 @end
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+
+#endif

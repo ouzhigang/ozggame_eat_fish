@@ -62,6 +62,8 @@
     return languageData;
 }
 
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+
 + (BOOL)isRunAtIphone5
 {
     UIScreen *screen = [UIScreen mainScreen];
@@ -88,17 +90,6 @@
 + (BOOL)isRunAtItouch
 {
     return [OzgOCUtility checkDevice:@"iTouch"];
-}
-
-+ (NSString*)getTheImagePath:(NSString*)imgFilePrefix withImgFileSuffix:(NSString*)imgFileSuffix
-{
-    if([OzgOCUtility isRunAtIphone5])
-    {
-        //iphone5
-        return [NSString stringWithFormat:@"%@640X1136%@", imgFilePrefix, imgFileSuffix];
-    }
-    
-    return [NSString stringWithFormat:@"%@640X960%@", imgFilePrefix, imgFileSuffix];
 }
 
 + (UIImage *)getPicZoomImage:(UIImage *)image
@@ -162,6 +153,23 @@
     NSRange range = [deviceType rangeOfString:name];
     return range.location != NSNotFound;
 }
+
++ (NSString*)getTheImagePath:(NSString*)imgFilePrefix withImgFileSuffix:(NSString*)imgFileSuffix
+{
+    if([OzgOCUtility isRunAtIphone5])
+    {
+        //iphone5
+        return [NSString stringWithFormat:@"%@640X1136%@", imgFilePrefix, imgFileSuffix];
+    }
+    
+    return [NSString stringWithFormat:@"%@640X960%@", imgFilePrefix, imgFileSuffix];
+}
+
+#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+
+#endif
+
+
 
 + (CGFloat)getCGRGBValue:(CGFloat)value
 {
