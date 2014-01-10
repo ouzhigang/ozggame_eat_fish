@@ -47,6 +47,7 @@
     
 }
 
+#ifdef __CC_PLATFORM_IOS
 + (NSString*)getImagePath:(NSString*)path
 {
     if([OzgOCUtility isRunAtIphone5])
@@ -57,6 +58,12 @@
     else
         return path;
 }
+#elif defined(__CC_PLATFORM_MAC)
++ (NSString*)getImagePath:(NSString*)path;
+{
+    return path;
+}
+#endif
 
 + (BOOL)randomRate:(CGFloat)rate
 {
