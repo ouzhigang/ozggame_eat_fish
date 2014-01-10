@@ -53,8 +53,16 @@ enum EatFishGameSceneAlertTag
     kEatFishGameSceneAlertTagQuit = 100
 };
 
+#ifdef __CC_PLATFORM_IOS
 @interface EatFishGameScene : EatFishBaseScene<UIAlertViewDelegate>
 
 + (CCScene*)scene;
 
 @end
+#elif defined(__CC_PLATFORM_MAC)
+@interface EatFishGameScene : EatFishBaseScene<NSAlertDelegate>
+
++ (CCScene*)scene;
+
+@end
+#endif

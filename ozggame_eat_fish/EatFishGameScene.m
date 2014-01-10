@@ -23,6 +23,10 @@
     NSInteger _eatFishTotalStatus1And2;
     NSInteger _eatFishTotalStatus3;
     NSInteger _eatFishTotalStatus4;
+    
+#ifdef __CC_PLATFORM_MAC
+    NSPoint _endPoint;
+#endif
 }
 
 - (void)gameStart; //开始游戏
@@ -35,6 +39,11 @@
 - (void)onButtonTouched:(id)sender;
 
 - (void)changeScore:(enum EatFishObjEnemyFishNodeStatus)enemyFishNodeStatus; //分数改变，吃掉鱼时调用
+
+#ifdef __CC_PLATFORM_MAC
+- (void)alertDidEnd:(NSAlert *)alert withReturnCode:(NSInteger)returnCode withContextInfo:(void *)contextInfo;
+#endif
+
 - (void)changeCheckpoints:(NSInteger)checkpoints; //关卡发生改变时调用
 - (void)changePlayerLife:(NSInteger)playerLife; //player生命值发生改变时调用
 
@@ -111,12 +120,22 @@
         [nodeFish addChild:player];
         
         //右上角的部分
+#ifdef __CC_PLATFORM_IOS
         CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+#elif defined(__CC_PLATFORM_MAC)
+        CCLabelTTF *checkpointsLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@%ld", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+#endif
+        
         [checkpointsLab setPosition:CGPointMake(winSize.width - 50, winSize.height - 12)];
         [checkpointsLab setTag:kEatFishGameSceneTagCheckpoints];
         [self addChild:checkpointsLab];
         
+#ifdef __CC_PLATFORM_IOS
         CCLabelTTF *scoreLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+#elif defined(__CC_PLATFORM_MAC)
+        CCLabelTTF *scoreLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@%ld", NSLocalizedString(@"GameScene_LabScore", nil), _score] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(100, 20) hAlignment:kCCTextAlignmentLeft];
+#endif
+        
         [scoreLab setPosition:CGPointMake(winSize.width - 50, winSize.height - 28)];
         [scoreLab setTag:kEatFishGameSceneTagScore];
         [self addChild:scoreLab];
@@ -156,7 +175,11 @@
         [fishLife setTag:kEatFishGameSceneTagFishLife];
         [self addChild:fishLife];
         
+#ifdef __CC_PLATFORM_IOS
         CCLabelTTF *fishLifeLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%i", _playerLife] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(50, 20) hAlignment:kCCTextAlignmentLeft];
+#elif defined(__CC_PLATFORM_MAC)
+        CCLabelTTF *fishLifeLab = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%ld", _playerLife] fontName:@"Arial-BoldMT" fontSize:15 dimensions:CGSizeMake(50, 20) hAlignment:kCCTextAlignmentLeft];
+#endif
         [fishLifeLab setPosition:CGPointMake(70, 270)];
         [fishLifeLab setTag:kEatFishGameSceneTagFishLifeLab];
         [self addChild:fishLifeLab];
@@ -214,13 +237,20 @@
     CCNode *player = [nodeFish getChildByTag:kEatFishGameSceneTagPlayer];
     [player runAction:[CCSequence actionOne:[CCMoveBy actionWithDuration:1.0 position:CGPointMake(0, -200)] two:[CCCallFunc actionWithTarget:self selector:@selector(gameStartCallback)]]];
     
+#ifdef __CC_PLATFORM_IOS
     [self setTouchEnabled:NO];
-    
+#elif defined(__CC_PLATFORM_MAC)
+    [self setMouseEnabled:NO];
+#endif
 }
 
 - (void)gameStartCallback
 {
+#ifdef __CC_PLATFORM_IOS
     [self setTouchEnabled:YES];
+#elif defined(__CC_PLATFORM_MAC)
+    [self setMouseEnabled:YES];
+#endif
     
     CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
     [menu setEnabled:YES];
@@ -245,29 +275,52 @@
     //鱼掉下来
     [player runAction:[CCSequence actionOne:[CCMoveBy actionWithDuration:1.0 position:CGPointMake(0, -200)] two:[CCCallFunc actionWithTarget:self selector:@selector(gameRestartCallback)]]];
     
+#ifdef __CC_PLATFORM_IOS
     [self setTouchEnabled:NO];
+#elif defined(__CC_PLATFORM_MAC)
+    [self setMouseEnabled:NO];
+#endif
 }
 
 - (void)gameRestartCallback
 {
+#ifdef __CC_PLATFORM_IOS
     [self setTouchEnabled:YES];
+#elif defined(__CC_PLATFORM_MAC)
+    [self setMouseEnabled:YES];
+#endif
     
     CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
     [menu setEnabled:YES];
     
 }
 
+#ifdef __CC_PLATFORM_IOS
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+#elif defined(__CC_PLATFORM_MAC)
+- (BOOL)ccMouseDown:(NSEvent *)event
+#endif
 {
     //UITouch *touch = [touches anyObject];
     //CGPoint point = [[CCDirector sharedDirector] convertToGL:[touch locationInView:touch.view]];
-    
+#ifdef __CC_PLATFORM_MAC
+    _endPoint = [event locationInWindow];
+    return YES;
+#endif
 }
 
+#ifdef __CC_PLATFORM_IOS
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+#elif defined(__CC_PLATFORM_MAC)
+- (BOOL)ccMouseDragged:(NSEvent *)event
+#endif
 {
+#ifdef __CC_PLATFORM_IOS
     UITouch *touch = [touches anyObject];
     CGPoint point = [[CCDirector sharedDirector] convertToGL:[touch locationInView:touch.view]];
+#elif defined(__CC_PLATFORM_MAC)
+    CGPoint point = CGPointMake(event.locationInWindow.x, event.locationInWindow.y);
+#endif
     
     CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
     
@@ -276,8 +329,11 @@
     {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         CGRect moveRect = CGRectMake(player.contentSize.width / 2, player.contentSize.height / 2, winSize.width - (player.contentSize.width / 2), winSize.height - (player.contentSize.height / 2));
-        
+#ifdef __CC_PLATFORM_IOS
         CGPoint endPoint = [[CCDirector sharedDirector] convertToGL:[touch previousLocationInView:touch.view]];
+#elif defined(__CC_PLATFORM_MAC)
+        CGPoint endPoint = CGPointMake(_endPoint.x, _endPoint.y);
+#endif
         
         CGPoint offSet = ccpSub(point, endPoint);
         CGPoint toPoint = ccpAdd(player.position, offSet);
@@ -296,15 +352,27 @@
             [player orientationRight]; //向右移动则转向右边
         else if(offSet.x < 0)
             [player orientationLeft]; //向左移动则转向左边
+#ifdef __CC_PLATFORM_MAC
+        _endPoint = NSPointFromCGPoint(point);
+#endif
     }
     
+#ifdef __CC_PLATFORM_MAC
+    return YES;
+#endif
 }
-
+#ifdef __CC_PLATFORM_IOS
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+#elif defined(__CC_PLATFORM_MAC)
+- (BOOL)ccMouseUp:(NSEvent *)event
+#endif
 {
     //UITouch *touch = [touches anyObject];
     //CGPoint point = [[CCDirector sharedDirector] convertToGL:[touch locationInView:touch.view]];
     
+#ifdef __CC_PLATFORM_MAC
+    return YES;
+#endif
 }
 
 - (void)onMenuTouched:(id)sender
@@ -336,7 +404,11 @@
                 
                 CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
                 [menu setEnabled:NO];
+#ifdef __CC_PLATFORM_IOS
                 [self setTouchEnabled:NO];
+#elif defined(__CC_PLATFORM_MAC)
+                [self setMouseEnabled:NO];
+#endif
                 
                 //弹出暂停时的菜单
                 CCNode *pauseMainNode = [CCBReader nodeGraphFromFile:[OzgCCUtility getImagePath:@"scene_game_pausemenu.ccbi"] owner:self];
@@ -384,7 +456,11 @@
             
             CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
             [menu setEnabled:YES];
+#ifdef __CC_PLATFORM_IOS
             [self setTouchEnabled:YES];
+#elif defined(__CC_PLATFORM_MAC)
+            [self setMouseEnabled:YES];
+#endif
             
             //继续游戏节点的所有子对象
             CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
@@ -437,25 +513,58 @@
         case kEatFishGameSceneTagPauseBtnQuit:
         {
             //NSLog(@"退出游戏");
+#ifdef __CC_PLATFORM_IOS
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:NSLocalizedString(@"GameScene_AlertMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil) otherButtonTitles:NSLocalizedString(@"GameScene_AlertBtnYes", nil), nil] autorelease];
             [alert setTag:kEatFishGameSceneAlertTagQuit];
             [alert show];
+#elif defined(__CC_PLATFORM_MAC)
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            alert.delegate = self;
+            [alert addButtonWithTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"GameScene_AlertBtnYes", nil)];
+            [alert setMessageText:NSLocalizedString(@"Alert_Title", nil)];
+            [alert setInformativeText:NSLocalizedString(@"GameScene_AlertMessage", nil)];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert beginSheetModalForWindow:[[[CCDirectorMac sharedDirector] view] window] modalDelegate:self didEndSelector:@selector(alertDidEnd:withReturnCode:withContextInfo:) contextInfo:[NSNumber numberWithInteger:kEatFishGameSceneAlertTagQuit]];
+#endif
         }
             break;
         case kEatFishGameSceneTagGameOverMainNodeBtnQuit:
         {
             //NSLog(@"退出游戏");
+#ifdef __CC_PLATFORM_IOS
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:NSLocalizedString(@"GameScene_AlertMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil) otherButtonTitles:NSLocalizedString(@"GameScene_AlertBtnYes", nil), nil] autorelease];
             [alert setTag:kEatFishGameSceneAlertTagQuit];
             [alert show];
+#elif defined(__CC_PLATFORM_MAC)
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            alert.delegate = self;
+            [alert addButtonWithTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"GameScene_AlertBtnYes", nil)];
+            [alert setMessageText:NSLocalizedString(@"Alert_Title", nil)];
+            [alert setInformativeText:NSLocalizedString(@"GameScene_AlertMessage", nil)];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert beginSheetModalForWindow:[[[CCDirectorMac sharedDirector] view] window] modalDelegate:self didEndSelector:@selector(alertDidEnd:withReturnCode:withContextInfo:) contextInfo:[NSNumber numberWithInteger:kEatFishGameSceneAlertTagQuit]];
+#endif
         }
             break;
         case kEatFishGameSceneTagGameClearMainNodeBtnQuit:
         {
             //NSLog(@"退出游戏");
+#ifdef __CC_PLATFORM_IOS
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:NSLocalizedString(@"GameScene_AlertMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil) otherButtonTitles:NSLocalizedString(@"GameScene_AlertBtnYes", nil), nil] autorelease];
             [alert setTag:kEatFishGameSceneAlertTagQuit];
             [alert show];
+#elif defined(__CC_PLATFORM_MAC)
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            alert.delegate = self;
+            [alert addButtonWithTitle:NSLocalizedString(@"GameScene_AlertBtnNo", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"GameScene_AlertBtnYes", nil)];
+            [alert setMessageText:NSLocalizedString(@"Alert_Title", nil)];
+            [alert setInformativeText:NSLocalizedString(@"GameScene_AlertMessage", nil)];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert beginSheetModalForWindow:[[[CCDirectorMac sharedDirector] view] window] modalDelegate:self didEndSelector:@selector(alertDidEnd:withReturnCode:withContextInfo:) contextInfo:[NSNumber numberWithInteger:kEatFishGameSceneAlertTagQuit]];
+#endif
         }
             break;
         case kEatFishGameSceneTagGameOverMainNodeBtnRestart:
@@ -477,9 +586,13 @@
             [self changeCheckpoints:_checkpoints];
             [self changePlayerLife:_playerLife];
             
+#ifdef __CC_PLATFORM_IOS
             CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
             [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
-            
+#elif defined(__CC_PLATFORM_MAC)
+            CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
+            [scoreLab setString:[NSString stringWithFormat:@"%@%ld", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
+#endif
             CCSprite *progress = (CCSprite*)[self getChildByTag:kEatFishGameSceneTagProgress];
             [progress setScaleX:0];
             
@@ -533,6 +646,7 @@
 }
 
 //UIAlertViewDelegate
+#ifdef __CC_PLATFORM_IOS
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (alertView.tag)
@@ -554,6 +668,28 @@
             break;
     }
 }
+#elif defined(__CC_PLATFORM_MAC)
+- (void)alertDidEnd:(NSAlert *)alert withReturnCode:(NSInteger)returnCode withContextInfo:(void *)contextInfo
+{
+    NSNumber *alertTag = (NSNumber*)contextInfo;
+    switch ([alertTag integerValue])
+    {
+        case kEatFishGameSceneAlertTagQuit:
+        {
+            if(returnCode == NSAlertSecondButtonReturn)
+            {
+                [self unscheduleUpdate];
+                [[CCDirector sharedDirector] resume];
+                
+                CCScene *s = [EatFishStartScene scene];
+                CCTransitionFade *t = [CCTransitionFade transitionWithDuration:APP_TRANSITION scene:s];
+                [[CCDirector sharedDirector] replaceScene:t];
+            }
+        }
+            break;
+    }
+}
+#endif
 
 - (void)changeScore:(enum EatFishObjEnemyFishNodeStatus)enemyFishNodeStatus
 {
@@ -598,7 +734,12 @@
         _eatFishTotal = APP_MAX_SCORE;
     
     CCLabelTTF *scoreLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagScore];
+#ifdef __CC_PLATFORM_IOS
     [scoreLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
+#elif defined(__CC_PLATFORM_MAC)
+    [scoreLab setString:[NSString stringWithFormat:@"%@%ld", NSLocalizedString(@"GameScene_LabScore", nil), _score]];
+#endif
+    
 }
 
 - (void)changeCheckpoints:(NSInteger)checkpoints
@@ -606,7 +747,12 @@
     _checkpoints = checkpoints;
     
     CCLabelTTF *checkpointsLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagCheckpoints];
+#ifdef __CC_PLATFORM_IOS
     [checkpointsLab setString:[NSString stringWithFormat:@"%@%i", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints]];
+#elif defined(__CC_PLATFORM_MAC)
+    [checkpointsLab setString:[NSString stringWithFormat:@"%@%ld", NSLocalizedString(@"GameScene_LabCheckpoints", nil), _checkpoints]];
+#endif
+    
 }
 
 - (void)changePlayerLife:(NSInteger)playerLife
@@ -614,7 +760,12 @@
     _playerLife = playerLife;
     
     CCLabelTTF *fishLifeLab = (CCLabelTTF*)[self getChildByTag:kEatFishGameSceneTagFishLifeLab];
+#ifdef __CC_PLATFORM_IOS
     [fishLifeLab setString:[NSString stringWithFormat:@"%i", _playerLife]];
+#elif defined(__CC_PLATFORM_MAC)
+    [fishLifeLab setString:[NSString stringWithFormat:@"%ld", _playerLife]];
+#endif
+    
 }
 
 //cocos2d update
@@ -748,7 +899,11 @@
                             [((EatFishObjPlayerNode*)srcObj) paralysis];
                     }
                     
+#ifdef __CC_PLATFORM_IOS
                     if([targetObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [self isTouchEnabled])
+#elif defined(__CC_PLATFORM_MAC)
+                    if([targetObj.typeName isEqualToString:APP_OBJ_TYPE_FISH] && [self isMouseEnabled])
+#endif
                     {
                         //NSLog(@"player与AI鱼碰撞了");
                         
@@ -803,7 +958,11 @@
                                 
                                 [[SimpleAudioEngine sharedEngine] playEffect:@"complete.mp3"];
                                 
+#ifdef __CC_PLATFORM_IOS
                                 [self setTouchEnabled:NO];
+#elif defined(__CC_PLATFORM_MAC)
+                                [self setMouseEnabled:NO];
+#endif
                                 CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
                                 [menu setEnabled:NO];
                                 
@@ -823,13 +982,28 @@
                                 
                                 //各种鱼的计数
                                 CCLabelTTF *gameClearLab2 = (CCLabelTTF*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeLab2];
+#ifdef __CC_PLATFORM_IOS
                                 [gameClearLab2 setString:[NSString stringWithFormat:@"%i", _eatFishTotalStatus1And2]];
+#elif defined(__CC_PLATFORM_MAC)
+                                [gameClearLab2 setString:[NSString stringWithFormat:@"%ld", _eatFishTotalStatus1And2]];
+#endif
+                                
                                 
                                 CCLabelTTF *gameClearLab3 = (CCLabelTTF*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeLab3];
+#ifdef __CC_PLATFORM_IOS
                                 [gameClearLab3 setString:[NSString stringWithFormat:@"%i", _eatFishTotalStatus3]];
+#elif defined(__CC_PLATFORM_MAC)
+                                [gameClearLab3 setString:[NSString stringWithFormat:@"%ld", _eatFishTotalStatus3]];
+#endif
+                                
                                 
                                 CCLabelTTF *gameClearLab4 = (CCLabelTTF*)[gameClear getChildByTag:kEatFishGameSceneTagGameClearMainNodeLab4];
+#ifdef __CC_PLATFORM_IOS
                                 [gameClearLab4 setString:[NSString stringWithFormat:@"%i", _eatFishTotalStatus4]];
+#elif defined(__CC_PLATFORM_MAC)
+                                [gameClearLab4 setString:[NSString stringWithFormat:@"%ld", _eatFishTotalStatus4]];
+#endif
+                                
                             }
                             
                             //变大的判断
@@ -855,7 +1029,11 @@
                                     //没有了生命值就game over
                                     [[SimpleAudioEngine sharedEngine] playEffect:@"complete.mp3"];
                                     
+#ifdef __CC_PLATFORM_IOS
                                     [self setTouchEnabled:NO];
+#elif defined(__CC_PLATFORM_MAC)
+                                    [self setMouseEnabled:NO];
+#endif
                                     CCMenu *menu = (CCMenu*)[self getChildByTag:kEatFishGameSceneTagMenu];
                                     [menu setEnabled:NO];
                                     
