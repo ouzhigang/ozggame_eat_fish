@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>BB5E7E1F-EF38-4B16-8B58-2BB80E389D78</string>
+	<string>E88E1F70-E024-4D55-A2BB-1BEA1B66F95B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>ozggame_eat_fish</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -14,11 +14,11 @@
 		<string>https://github.com/ouzhigang/ozggame_eat_fish.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ozggame_eat_fish.xcodeproj/project.xcworkspace</string>
+	<string>mac/ozggame_eat_fish.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>92171588-CC53-469B-A93C-1EB0F8B38CBA</key>
-		<string>../..</string>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/ouzhigang/ozggame_eat_fish.git</string>
