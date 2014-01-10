@@ -11,6 +11,11 @@
 @interface EatFishStartScene()
 
 - (void)onButtonTouched:(id)sender;
+
+#ifdef  __CC_PLATFORM_MAC
+- (void)alertDidEnd:(NSAlert *)alert withReturnCode:(NSInteger)returnCode withContextInfo:(void *)contextInfo;
+#endif
+
 - (void)showMain;
 - (void)hideMain;
 - (void)showHelp;
@@ -88,8 +93,19 @@
             //NSLog(@"蓝牙连接");
 //            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"StartScene_AlertBtnCancel", nil) otherButtonTitles:NSLocalizedString(@"StartScene_AlertBtnMonitor", nil), NSLocalizedString(@"StartScene_AlertBtnScan", nil), nil] autorelease];
 //            [alert show];
+            
+#ifdef __CC_PLATFORM_IOS
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert_Title", nil) message:@"本功能未完成" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] autorelease];
             [alert show];
+#elif defined(__CC_PLATFORM_MAC)
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            alert.delegate = self;
+            [alert addButtonWithTitle:@"确定"];
+            [alert setMessageText:NSLocalizedString(@"Alert_Title", nil)];
+            [alert setInformativeText:@"Mac版不支持蓝牙"];
+            [alert setAlertStyle:NSWarningAlertStyle];            
+            [alert beginSheetModalForWindow:[[[CCDirectorMac sharedDirector] view] window] modalDelegate:self didEndSelector:@selector(alertDidEnd:withReturnCode:withContextInfo:) contextInfo:nil];
+#endif
             
         }
             break;
@@ -117,6 +133,7 @@
 }
 
 //UIAlertViewDelegate
+#ifdef __CC_PLATFORM_IOS
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (buttonIndex)
@@ -138,6 +155,12 @@
             break;
     }
 }
+#elif defined(__CC_PLATFORM_MAC)
+- (void)alertDidEnd:(NSAlert *)alert withReturnCode:(NSInteger)returnCode withContextInfo:(void *)contextInfo
+{
+    NSLog(@"Mac版本不支持蓝牙");
+}
+#endif
 
 - (void)showMain
 {

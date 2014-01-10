@@ -26,8 +26,16 @@ enum EatFishStartTag
     kEatFishStartTagHelp3 = 11
 };
 
+#ifdef __CC_PLATFORM_IOS
 @interface EatFishStartScene : EatFishBaseScene<UIAlertViewDelegate>
 
 + (CCScene*)scene;
 
 @end
+#elif defined(__CC_PLATFORM_MAC)
+@interface EatFishStartScene : EatFishBaseScene<NSAlertDelegate>
+
++ (CCScene*)scene;
+
+@end
+#endif
