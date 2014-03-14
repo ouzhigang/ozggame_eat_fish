@@ -5,4 +5,4 @@ ozg game—大鱼吃小鱼
 
 同时兼容ios和mac os
 
-![](https://github.com/ouzhigang/ozggame_eat_fish/blob/master/%E6%88%AA%E5%9B%BE.jpg)
+![](https://raw.github.com/kyokomi/Cocos2dxSRPGQuest/master/work/screen_captiue.png)
