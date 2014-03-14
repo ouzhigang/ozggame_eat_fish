@@ -6,4 +6,4 @@ ozg game—大鱼吃小鱼
 同时兼容ios和mac os
 
 
-![](https://raw.github.com/ouzhigang/ozggame_eat_fish/master/screen_captiue.png)
+![](https://raw.github.com/ouzhigang/ozggame_eat_fish/master/screenshot.png)
