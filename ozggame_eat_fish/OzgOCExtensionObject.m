@@ -271,7 +271,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
     return newImage;
 }
 
-- (UIImage*)imageWithUIView:(UIView*) view
++ (UIImage*)imageWithUIView:(UIView*) view
 {
     // 创建一个bitmap的context
     // 并把它设置成为当前正在使用的context

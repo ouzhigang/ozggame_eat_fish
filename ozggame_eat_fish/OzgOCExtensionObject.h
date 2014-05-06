@@ -45,9 +45,9 @@
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 @interface UIImage(ExtensionUIImage)
 
-- (UIImage *)imageRotatedByRadians:(CGFloat)radians; //图片旋转 参数为弧度
-- (UIImage *)imageRotatedByDegrees:(CGFloat)degrees; //图片旋转 参数为角度
-- (UIImage*)imageWithUIView:(UIView*) view; //将UIView转成UIImage
+- (UIImage*)imageRotatedByRadians:(CGFloat)radians; //图片旋转 参数为弧度
+- (UIImage*)imageRotatedByDegrees:(CGFloat)degrees; //图片旋转 参数为角度
++ (UIImage*)imageWithUIView:(UIView*) view; //将UIView转成UIImage
 
 @end
 
