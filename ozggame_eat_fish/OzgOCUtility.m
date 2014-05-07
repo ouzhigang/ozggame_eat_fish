@@ -1,4 +1,5 @@
 #import "OzgOCUtility.h"
+#include "OzgOCObj.h"
 
 @implementation OzgOCUtility
 
@@ -58,7 +59,7 @@
         return nil;
     }
     
-    NSDictionary *languageData = [[[NSDictionary alloc] initWithContentsOfFile:filePath] autorelease];
+    NSDictionary *languageData = PP_AUTORELEASE([[NSDictionary alloc] initWithContentsOfFile:filePath]);
     return languageData;
 }
 

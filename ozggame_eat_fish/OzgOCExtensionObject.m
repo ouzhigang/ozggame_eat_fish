@@ -1,4 +1,5 @@
 #import "OzgOCExtensionObject.h"
+#include "OzgOCObj.h"
 
 static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -25,7 +26,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
     
     NSString *resultStr = self;
     
-    CFStringRef originalString = (CFStringRef) self;
+    CFStringRef originalString = (__bridge CFStringRef) self;
     CFStringRef leaveUnescaped = CFSTR(" ");
     CFStringRef forceEscaped = CFSTR("!*'();:@&=+$,/?%#[]");
     
@@ -38,7 +39,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
     
     if(escapedStr)
     {
-        NSMutableString *mutableStr = [NSMutableString stringWithString:(NSString *)escapedStr];
+        NSMutableString *mutableStr = [NSMutableString stringWithString:(__bridge NSString *)escapedStr];
         CFRelease(escapedStr);
         
         // replace spaces with plusses
@@ -142,7 +143,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 
 - (NSString *)newStringInBase64FromData            //追加64编码
 {
-    NSMutableString *dest = [[[NSMutableString alloc] initWithString:@""] autorelease];
+    NSMutableString *dest = PP_AUTORELEASE([[NSMutableString alloc] initWithString:@""]);
     unsigned char * working = (unsigned char *)[self bytes];
     NSUInteger srcLen = [self length];
     
@@ -211,7 +212,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
             characters[length++] = '=';
     }
     
-    NSString *g = [[[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
+    NSString *g = PP_AUTORELEASE([[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES]);
     
     return g;
 }
@@ -249,7 +250,7 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
     CGAffineTransform t = CGAffineTransformMakeRotation(degrees * M_PI / 180);
     rotatedViewBox.transform = t;
     CGSize rotatedSize = rotatedViewBox.frame.size;
-    [rotatedViewBox release];
+    PP_RELEASE(rotatedViewBox);
     
     // Create the bitmap context
     UIGraphicsBeginImageContext(rotatedSize);

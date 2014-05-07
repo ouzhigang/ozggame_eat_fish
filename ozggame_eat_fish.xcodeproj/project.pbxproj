@@ -679,6 +679,7 @@
 		9ED52BEB1862C6B100DF567C /* OzgOCExtensionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzgOCExtensionObject.m; sourceTree = "<group>"; };
 		9ED52BEC1862C6B100DF567C /* OzgOCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzgOCUtility.h; sourceTree = "<group>"; };
 		9ED52BED1862C6B100DF567C /* OzgOCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OzgOCUtility.m; sourceTree = "<group>"; };
+		9EFCC1F31919CF8C0068FE94 /* OzgOCObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OzgOCObj.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1181,6 +1182,7 @@
 		897616F51825332600C0B854 /* commons */ = {
 			isa = PBXGroup;
 			children = (
+				9EFCC1F31919CF8C0068FE94 /* OzgOCObj.h */,
 				9ED52BEA1862C6B100DF567C /* OzgOCExtensionObject.h */,
 				9ED52BEB1862C6B100DF567C /* OzgOCExtensionObject.m */,
 				9ED52BEC1862C6B100DF567C /* OzgOCUtility.h */,
