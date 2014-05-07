@@ -637,6 +637,7 @@
 		89AFBF37187EC371001DE663 /* progressk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progressk.png; sourceTree = "<group>"; };
 		89AFBF38187EC371001DE663 /* scene_start_title-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scene_start_title-hd.png"; sourceTree = "<group>"; };
 		89AFBF39187EC371001DE663 /* scene_start_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scene_start_title.png; sourceTree = "<group>"; };
+		9E5382601919D35500809C7E /* OzgOCObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OzgOCObj.h; path = ../../ozggame_eat_fish/OzgOCObj.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1230,6 +1231,7 @@
 				89AFBECD187EC2C4001DE663 /* EatFishObjFishData.m */,
 				89AFBEC9187EC2B2001DE663 /* EatFishBaseScene.h */,
 				89AFBECA187EC2B2001DE663 /* EatFishBaseScene.m */,
+				9E5382601919D35500809C7E /* OzgOCObj.h */,
 				89AFBEC0187EC28F001DE663 /* OzgCCUtility.h */,
 				89AFBEC1187EC28F001DE663 /* OzgCCUtility.m */,
 				89AFBEC2187EC28F001DE663 /* OzgOCExtensionObject.h */,
