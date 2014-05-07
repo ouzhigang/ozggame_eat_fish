@@ -1,6 +1,6 @@
 
-#ifndef OzgOCARC_h
-#define OzgOCARC_h
+#ifndef OzgOCObj_h
+#define OzgOCObj_h
 
 //判断是否运行在ARC状态
 #if __has_feature(objc_arc) && __clang_major__ >= 3
