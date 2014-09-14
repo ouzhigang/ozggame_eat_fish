@@ -50,19 +50,19 @@
     return data;
 }
 
-+ (NSArray*)getPlayFish
++ (NSArray*)getPlayerFish
 {
     NSArray *data = [NSArray arrayWithObjects:@"playFish1.png", @"playFish2.png", @"playFish3.png", @"playFish4.png", @"playFish5.png", @"playFish6.png", @"playFish7.png", @"playFish8.png", @"playFish9.png", @"playFish10.png", @"playFish11.png", @"playFish12.png", @"playFish13.png", @"playFish14.png", @"playFish15.png", @"playFish16.png", @"playFish17.png", @"playFish18.png", @"playFish19.png", @"playFish20.png", @"playFish21.png", @"playFish22.png", @"playFish23.png", @"playFish24.png", nil];
     return data;
 }
 
-+ (NSArray*)getPlayBFish
++ (NSArray*)getPlayerBFish
 {
     NSArray *data = [NSArray arrayWithObjects:@"playBFish1.png", @"playBFish2.png", @"playBFish3.png", @"playBFish4.png", @"playBFish5.png", @"playBFish6.png", @"playBFish7.png", @"playBFish8.png", @"playBFish9.png", @"playBFish10.png", @"playBFish11.png", @"playBFish12.png", @"playBFish13.png", @"playBFish14.png", @"playBFish15.png", @"playBFish16.png", @"playBFish17.png", @"playBFish18.png", @"playBFish19.png", @"playBFish20.png", @"playBFish21.png", @"playBFish22.png", @"playBFish23.png", @"playBFish24.png", nil];
     return data;
 }
 
-+ (NSArray*)getPlayMFish
++ (NSArray*)getPlayerMFish
 {
     NSArray *data = [NSArray arrayWithObjects:@"playMFish1.png", @"playMFish2.png", @"playMFish3.png", @"playMFish4.png", @"playMFish5.png", @"playMFish6.png", @"playMFish7.png", @"playMFish8.png", @"playMFish9.png", @"playMFish10.png", @"playMFish11.png", @"playMFish12.png", @"playMFish13.png", @"playMFish14.png", @"playMFish15.png", @"playMFish16.png", @"playMFish17.png", @"playMFish18.png", @"playMFish19.png", @"playMFish20.png", @"playMFish21.png", @"playMFish22.png", @"playMFish23.png", @"playMFish24.png", nil];
     return data;

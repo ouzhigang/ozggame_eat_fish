@@ -228,21 +228,21 @@
         case kEatFishObjPlayerNodeStatusMiddle:
         {
             //中等状态
-            fishSpriteFrameNames = [EatFishObjFishData getPlayMFish];
+            fishSpriteFrameNames = [EatFishObjFishData getPlayerMFish];
             
         }
             break;
         case kEatFishObjPlayerNodeStatusBig:
         {
             //变大状态
-            fishSpriteFrameNames = [EatFishObjFishData getPlayBFish];
+            fishSpriteFrameNames = [EatFishObjFishData getPlayerBFish];
             
         }
             break;
         default:
         {
             //默认状态
-            fishSpriteFrameNames = [EatFishObjFishData getPlayFish];
+            fishSpriteFrameNames = [EatFishObjFishData getPlayerFish];
             
         }
             break;

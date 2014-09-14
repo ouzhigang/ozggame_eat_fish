@@ -16,9 +16,9 @@
 + (NSArray*)getFish4;
 + (NSArray*)getFish5;
 + (NSArray*)getFish6;
-+ (NSArray*)getPlayFish;
-+ (NSArray*)getPlayBFish;
-+ (NSArray*)getPlayMFish;
++ (NSArray*)getPlayerFish;
++ (NSArray*)getPlayerBFish;
++ (NSArray*)getPlayerMFish;
 + (NSArray*)getJellyFish;
 
 @end

@@ -114,7 +114,7 @@
         [self addChild:nodeFish];
         
         //玩家控制的鱼
-        EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+        EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayerFish]];
         [player setPosition:CGPointMake(winSize.width / 2, 400)];
         [player setTag:kEatFishGameSceneTagPlayer];
         [nodeFish addChild:player];
@@ -267,7 +267,7 @@
     
     CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
     
-    EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+    EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayerFish]];
     [player setPosition:CGPointMake(winSize.width / 2, 400)];
     [player setTag:kEatFishGameSceneTagPlayer];
     [nodeFish addChild:player];
@@ -398,7 +398,7 @@
                     
                     [fish pauseSchedulerAndActions];
                 }
-                [self pauseSchedulerAndActions];
+                [self unscheduleUpdate];
                 
                 CGSize winSize = [[CCDirector sharedDirector] winSize];
                 
@@ -473,7 +473,7 @@
                 
                 [fish resumeSchedulerAndActions];
             }
-            [self resumeSchedulerAndActions];
+            [self scheduleUpdate];
         }
             break;
         case kEatFishGameSceneTagPauseBtnBgSound:
@@ -602,7 +602,7 @@
             //玩家控制的鱼
             CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
             
-            EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+            EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayerFish]];
             [player setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, 400)];
             [player setTag:kEatFishGameSceneTagPlayer];
             [nodeFish addChild:player];
@@ -634,7 +634,7 @@
             //玩家控制的鱼
             CCNode *nodeFish = [self getChildByTag:kEatFishGameSceneTagNodeFish];
             
-            EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayFish]];
+            EatFishObjPlayerNode *player = [EatFishObjPlayerNode nodeWithFishSpriteFrameNames:[EatFishObjFishData getPlayerFish]];
             [player setPosition:CGPointMake([[CCDirector sharedDirector] winSize].width / 2, 400)];
             [player setTag:kEatFishGameSceneTagPlayer];
             [nodeFish addChild:player];
